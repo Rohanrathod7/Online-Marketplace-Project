@@ -1,0 +1,58 @@
+.search-container {
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+}
+.search-container input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+  border-radius: 50px;
+}
+.search-container input::placeholder {
+  color: #aaa;
+}
+.search-container button {
+  background: none;
+  border: none;
+  outline: none;
+  color: #333;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.search-container button:hover {
+  color: #007bff;
+}
+.vendor-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+.vendor-card:hover {
+  transform: scale(1.02);
+}
+.badge-featured {
+  background-color: rgb(39, 148, 66);
+  color: white;
+  font-weight: bold;
+}
+.badge-new {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+.vendor-btn {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(40, 167, 69);
+}
+.vendor-btn:hover {
+  text-decoration: none;
+}

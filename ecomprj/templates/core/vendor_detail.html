@@ -1,0 +1,347 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <div class="container1 m-5  " >
+        <div class="row ">
+            <div class="col-md-12 p-4 mb-3 bg-dark text-white d-flex" style="color: white; background: linear-gradient(rgba(11, 12, 13, 0.272), rgba(0, 10, 15, 0.929)),{% if vendor.cover_image %} url({{vendor.cover_image.url}}) {% else %} url({% static 'assets/images/background-pattern.jpg' %}) {% endif %}; 
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            border-radius: 10px;">
+                <div class="col-md-2 me-2 d-flex flex-column justify-content-start align-items-start" style="background:url({{ vendor.image.url }});background-size:cover; 
+                background-repeat: no-repeat; 
+                border-radius: 10px;background-position: center; height: 200px;">
+                </div>
+                <div class="col-md-9 mt-2 ms-3 d-flex flex-column ">
+                    <div class="d-flex justify-content-between align-items-center text-white">
+                        <small class=" mb-1" style="color: rgb(255, 255, 255,0.8);">Since {{ vendor.date| date:"Y"}}</small>
+                        
+                    </div>
+                  <h1 class="mt-2" style="line-height:0.4cm;color: white;"><strong>{{vendor.title}}</strong></h1>
+                  <div class="row">
+                    <div class="col-md-12 d-flex mt-4">
+                        <div class="col-md-4 d-flex ">
+                            <p class="  mb-2 lead me-2"  style="color: whitesmoke;font-size: smaller;">
+                                {{vendor.description}}
+                              </p>
+                        </div>
+                        <div class="col-md-4 d-flex">
+                            <p class="  mb-2 me-2"  style="color: whitesmoke;font-size: smaller;">
+                                <strong>Address:</strong>{{vendor.address}}
+                                <br>
+                                <strong>Call Us:</strong>{{vendor.content}}
+                              </p>
+                            
+                        </div>
+                        <div class="col-md-4 ">
+                            <p class="  mb-2 me-2"  style="color: whitesmoke;font-size: smaller;">
+                                <strong>Follow Us:</strong>
+                              </p>
+                            
+                              <div class="d-flex gap-3">
+                                <!-- Google -->
+                                <a href="https://www.google.com" class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px;" target="_blank">
+                                  <i class="bi bi-google" style="font-size: 24px; color: white;"></i>
+                                </a>
+                              
+                                <!-- Facebook -->
+                                <a href="https://www.facebook.com" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px;" target="_blank">
+                                  <i class="bi bi-facebook" style="font-size: 44px; color: white;"></i>
+                                </a>
+                              
+                                <!-- Instagram -->
+                                <a href="https://www.instagram.com" class="btn rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);" target="_blank">
+                                  <i class="bi bi-instagram" style="font-size: 24px; color: white;"></i>
+                                </a>
+                              
+                                <!-- Telegram -->
+                                <a href="https://telegram.org" class="btn btn-info rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px;" target="_blank">
+                                  <i class="bi bi-telegram" style="font-size: 44px; color: white;"></i>
+                                </a>
+                              </div>
+                            
+                            
+                        </div>
+                        
+                    </div>
+                  </div>
+                </div>
+            </div>
+                
+            
+            <div class="col-md-3 mt-3  ">
+                <div class="filter-card ">
+                  <h5 class="filter-title">By Categories</h5>
+                  <div class="" style="background-color: black;width: 20px;"></div>
+                  {% for c in categories%}
+                  <a href="{% url 'core:category_product_list1' c.cid %}" style="text-decoration-line: none;">
+                    <div class="hover-text d-flex align-items-center justify-content-between" style="border: 1px solid rgb(3, 3, 3,0.2);color: rgb(0, 0, 0,0.9);">{{c.title}}<span class="badge text-bg-warning me-2">{{c.category.count}}</span></div>
+                  </a>
+                  {% endfor %}
+                </div>
+                <div class="my-3" style="background: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="latest-product__text">
+                        <h4>Latest Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            <div class="latest-prdouct__slider__item">
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-1.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-2.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-3.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest-prdouct__slider__item">
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-1.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-2.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="{% static 'assets/images/lp-3.jpg' %}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6>Crab Pool Security</h6>
+                                        <span>$30.00</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3" style="background: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="">
+                        <div class="latest-product__text">
+                            <h4>Top Rated Products</h4>
+                            <div class="latest-product__slider owl-carousel">
+                                <div class="latest-prdouct__slider__item">
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-1.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-2.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-3.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="latest-prdouct__slider__item">
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-1.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-2.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{% static 'assets/images/lp-3.jpg' %}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                    <div class="text-dark">
+                        <p>We have <strong style="color: green;">{{vendor.product.count}}</strong> product{{vendor.product.count|pluralize}} for you</p>
+                    </div>
+                    <div>
+                      <select class="form-select d-inline w-auto text-dark" aria-label="Show" style="border-color: rgb(143, 143, 143);border-width: 1px;">
+                        <option selected>Show: 50</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="100">100</option>
+                      </select>
+                      <select class="form-select d-inline w-auto text-dark" aria-label="Sort by" style="border-color: rgb(143, 143, 143);border-width: 1px;">
+                        <option selected>Sort by: Featured</option>
+                        <option value="name">Name</option>
+                        <option value="rating">Rating</option>
+                      </select>
+                    </div>
+                  </div>
+                {% for p in product %}
+                <div class="card mb-3 product-item p-0 vendor-card" style="border-color: rgb(255, 255, 255,0);" >
+                    <div class="row g-0">
+                      <div class=" product-item vendor-card col-md-4 mb-0" style="background:url({{ p.image.url }});background-size:cover; 
+                      background-repeat: no-repeat; 
+                      border-radius: 10px;border-color:black;background-position: center; height: 250px;">
+                         <span class="badge  position-absolute  " style="background-color: #cc2366;">-{{p.get_percentage | floatformat:0}}%</span>
+                         <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body h-100 d-flex flex-column " style="border-color: rgb(255, 255, 255,0); border-width: 0;" >
+                           
+                            <p class="card-text" style="font-size: smaller;">{{p.category.title}}</p>
+
+                          <h1 class="card-title text-dark" style="line-height: 0.2; ">{{p.title|truncatechars:50}}</h1>
+                          <p class="card-text pt-3 text-dark" style="font-size:small;">{{p.description}}</p>
+                          <span class="block">
+                            <h4 class="card-text " style="color: rgb(40, 167, 69);font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">${{p.price}}<small class="text-body-secondary ms-2" style="font-size: medium;opacity: 0.7;"><s>${{p.old_price}}</s></small></h4>
+
+                          </span>
+                          <div class=" mt-auto me-0">
+                            <div class="d-flex justify-content-start align-items-center me-3">
+                                <a href="" class="btn btn-success vendor-btn mb-2"
+                                    > <i class="bi bi-cart"></i><strong> Add to Cart</strong></a
+                                  >
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+
+            
+            
+        </div>
+    </div>
+    
+    
+        
+    <!-- <div class="row ">
+        <div class="col">
+            <div class="bootstrap-tabs product-tabs">
+                <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+
+                <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                
+                {% for p in products%}
+                <div class="col hover-up active">
+                    <div class="product-item ">
+                    <span class="badge bg-success position-absolute m-3">-{{p.get_percentage | floatformat:0}}%</span>
+                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                    <figure >
+                        <a href="" title="Product Title">
+                        <img src="{{ p.image.url }}"  class="img-fluid tab-image" style="width: 250px; height: 250px; object-fit: cover;">
+                        </a>
+                    </figure>
+                    
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                        <p class="m-0">{{p.category}}</p>
+                        </div>
+                        <div class="col-md-8 text-end">
+                        <span class="rating text-end"><svg width="24" height="24" class="text-primary mb-2"><use xlink:href="#star-solid"></use></svg> </span></div>
+                        <!-- <span class="rating text-end"> </span> -->
+                        <!-- </div>
+                    <h3>{{ p.title }}</h3>
+                    <div>
+                         <span class="qty">{% if p.in_stock %}In-Stock{% else %}<p>Out-of-Stocks</p>{% endif %}</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> </span> -->
+                        <!-- <span class="font-small text-muted">By <a href="vendoe-detail.html">{{p.vendor.title}}</a></span>
+                    </div>
+                    <span class="price">${{p.price}}</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="input-group product-qty">
+                            <span class="input-group-btn">
+                                <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                                <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                </button>
+                            </span>
+                            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                            <span class="input-group-btn">
+                                <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                    <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                </button>
+                            </span>
+                        </div>
+                        <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                </div>
+                <!-- / product-grid -->
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
+    
+    
+
+{% endblock content %}

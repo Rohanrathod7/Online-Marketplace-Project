@@ -1,0 +1,120 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.product-detail-container {
+  margin-top: 20px;
+}
+
+/* Zoom Feature */
+.product-zoom-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.zoom-wrapper {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Match main image height */
+  overflow: hidden;
+}
+
+.zoom-wrapper img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.zoom-wrapper:hover img {
+  transform: scale(1.5); /* Zoom level */
+}
+
+/* Panning */
+.zoom-wrapper:hover img {
+  cursor: zoom-in;
+}
+
+/* Thumbnail Carousel */
+.thumbnail-carousel img {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.thumbnail-carousel img:hover {
+  transform: scale(1.1);
+}
+
+/* Product Details */
+.product-details .badge {
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.product-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.product-rating i {
+  color: #f1c40f;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.quantity-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-input input {
+  width: 60px;
+  text-align: center;
+}
+
+/* Tabs Section */
+.tabs-section .nav-link {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f7f9f7; /* Initial background color */
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0, 0.4);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color border-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745; /* Background color on hover */
+}
+
+.nav-link:active {
+  background-color: #45a049; /* Active background color */
+  color: white; /* Active text color */
+}
+
+/* Delivery and Vendor Cards */
+.delivery-card,
+.vendor-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}

@@ -1,0 +1,38 @@
+/* General Styles for Preformatted Code */
+pre {
+  background-color: #f9f9f9;
+  color: #333;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  border-left: 4px solid #007bff;
+  padding: 10px;
+  margin: 10px 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Add Styling for Inline Code Blocks */
+code {
+  background-color: #f1f1f1;
+  color: #d6336c;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+}
+
+/* Customize CKEditor Output with Classes */
+.code-snippet {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}

@@ -1,0 +1,44 @@
+{% for p in products%}
+                <div class="col hover-up active">
+                    <div class="product-item vendor-card">
+                    <span class="badge bg-success position-absolute m-3">-{{p.get_percentage | floatformat:0}}%</span>
+                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                    <figure >
+                        <a href="" title="Product Title">
+                        <img src="{{ p.image.url }}"  class="img-fluid tab-image" style="width: 250px; height: 250px; object-fit: cover;">
+                        </a>
+                    </figure>
+                    
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                        <p class="m-0">{{p.category}}</p>
+                        </div>
+                        <div class="col-md-8 text-end">
+                        <span class="rating text-end"><svg width="24" height="24" class="text-primary mb-2"><use xlink:href="#star-solid"></use></svg> </span></div>
+                        <!-- <span class="rating text-end"> </span> -->
+                        </div>
+                    <h3>{{ p.title }}</h3>
+                    <div>
+                        <!-- <span class="qty">{% if p.in_stock %}In-Stock{% else %}<p>Out-of-Stocks</p>{% endif %}</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> </span> -->
+                        <span class="font-small text-muted">By <a href="vendoe-detail.html">{{p.vendor.title}}</a></span>
+                    </div>
+                    <span class="price">${{p.price}}</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="input-group product-qty">
+                            <span class="input-group-btn">
+                                <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                                <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                </button>
+                            </span>
+                            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                            <span class="input-group-btn">
+                                <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                    <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                </button>
+                            </span>
+                        </div>
+                        <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}

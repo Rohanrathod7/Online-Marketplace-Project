@@ -1,0 +1,92 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.filter-card {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #343a40;
+  margin-bottom: 15px;
+}
+
+.hover-text {
+  margin-bottom: 10px;
+  color: #6c757d;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px;
+
+  border-radius: 5px;
+  text-align: left;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.hover-text:hover {
+  background-color: #198754;
+  color: #ffffff;
+}
+
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 5px 15px;
+  background: #e9ecef;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tag:hover {
+  background: #d4d4d4;
+}
+
+.range-slider {
+  position: relative;
+  width: 100%;
+}
+
+.range-slider input {
+  width: 100%;
+  pointer-events: none;
+  position: absolute;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  pointer-events: auto;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #198754;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+}
+
+.range-slider .range-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: bold;
+  color: #495057;
+}
+
+.price-image {
+  max-width: 100%;
+  margin-top: 15px;
+  border-radius: 10px;
+}

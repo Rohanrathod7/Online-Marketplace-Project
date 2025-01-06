@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filter Section with Toggle</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="filter.css" />
+  </head>
+  <body>
+    <div class="container py-5">
+      <!-- Toggle Button -->
+      <button
+        id="toggleButton"
+        class="btn activate btn-outline-success mb-3"
+        data-bs-toggle="button"
+      >
+        Filters ▼
+      </button>
+
+      <!-- Filter Section -->
+      <div id="filterSection" class="collapse show">
+        <div class="row gy-4">
+          <!-- By Categories -->
+          <div class="col-md-3">
+            <div class="filter-card">
+              <h5 class="filter-title">By Categories</h5>
+              <div class="hover-text">Milks and Dairies</div>
+              <div class="hover-text">Clothing & Beauty</div>
+              <div class="hover-text">Pet Foods & Toy</div>
+              <div class="hover-text">Baking Material</div>
+            </div>
+          </div>
+
+          <!-- By Vendors -->
+          <div class="col-md-3">
+            <div class="filter-card">
+              <h5 class="filter-title">By Vendors</h5>
+              <div class="filter-option">
+                <label
+                  ><input type="checkbox" class="form-check-input me-2" />
+                  Aldi</label
+                >
+              </div>
+              <div class="filter-option">
+                <label
+                  ><input type="checkbox" class="form-check-input me-2" />
+                  Adidas</label
+                >
+              </div>
+              <div class="filter-option">
+                <label
+                  ><input type="checkbox" class="form-check-input me-2" />
+                  Burbe</label
+                >
+              </div>
+              <div class="filter-option">
+                <label
+                  ><input type="checkbox" class="form-check-input me-2" />
+                  Chanel</label
+                >
+              </div>
+              <div class="filter-option">
+                <label
+                  ><input type="checkbox" class="form-check-input me-2" />
+                  Prada</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- By Tags -->
+          <div class="col-md-3">
+            <div class="filter-card">
+              <h5 class="filter-title">By Tags</h5>
+              <div class="filter-tags">
+                <span class="tag">Milk <span>&times;</span></span>
+                <span class="tag">Broccoli <span>&times;</span></span>
+                <span class="tag">Smoothie <span>&times;</span></span>
+                <span class="tag">Fruit <span>&times;</span></span>
+                <span class="tag">Salad <span>&times;</span></span>
+                <span class="tag">Appetizer <span>&times;</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- By Price -->
+          <div class="col-md-3">
+            <div class="filter-card">
+              <h5 class="filter-title">By Price</h5>
+              <div class="range-slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value="200"
+                  id="rangeMin"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value="800"
+                  id="rangeMax"
+                />
+                <div class="range-label">
+                  <span id="minLabel">$200</span>
+                  <span id="maxLabel">$800</span>
+                </div>
+              </div>
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Price Image"
+                class="price-image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const toggleButton = document.getElementById("toggleButton");
+      const filterSection = document.getElementById("filterSection");
+
+      toggleButton.addEventListener("click", () => {
+        const isOpen = filterSection.classList.contains("show");
+        filterSection.classList.toggle("show");
+        toggleButton.innerText = isOpen ? "Filters ▲" : "Filters ▼";
+      });
+
+      const rangeMin = document.getElementById("rangeMin");
+      const rangeMax = document.getElementById("rangeMax");
+      const minLabel = document.getElementById("minLabel");
+      const maxLabel = document.getElementById("maxLabel");
+
+      rangeMin.addEventListener("input", () => {
+        if (parseInt(rangeMin.value) > parseInt(rangeMax.value)) {
+          rangeMin.value = rangeMax.value;
+        }
+        minLabel.innerText = `$${rangeMin.value}`;
+      });
+
+      rangeMax.addEventListener("input", () => {
+        if (parseInt(rangeMax.value) < parseInt(rangeMin.value)) {
+          rangeMax.value = rangeMin.value;
+        }
+        maxLabel.innerText = `$${rangeMax.value}`;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,415 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+<div class="container product-detail-container p-0">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="row mt-4">
+        <!-- Left Section: Product Images with Zoom -->
+
+        <div class="col-md-5">
+          <div class="product-zoom-container " style="border:1px solid rgb(0, 0, 0,0.2); border-radius: 30px;">
+            <div class="zoom-wrapper">
+              <img
+                id="mainImage"
+                src="{{ p.image.url }}"
+                alt="Product Image"
+                style="object-fit: cover;"
+                
+              />
+            </div>
+          </div>
+          <div class="owl-carousel thumbnail-carousel mt-3">
+            {% for i in p_images %}
+            <img
+              src="{{ i.images.url }}"
+              alt="Product Thumbnail"
+              style="object-fit: cover; object-position: center"
+            />
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Middle Section: Product Details -->
+        <div class="col-md-7 product-details ps-4 pe-4">
+          <span class="badge mb-2">-{{p.get_percentage | floatformat:0}}%</span>
+          <h1 class="product-title">{{p.title}}</h1>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <p>
+            <div class="d-flex">
+            <span class="text-success"
+              >$<span class="product_price" style="color: green;font-size: 1.5rem; font-weight: bold; ">{{p.price}} </span>
+            </span>
+            <span class="old-price"> ${{ p.old_price}}</span>
+        </div>
+          </p>
+          <p class="product-description">
+            {{p.description|truncatechars:40}}
+          </p>
+          <p><strong>Weight:</strong> 500g</p>
+         <div class="d-flex align-items-between  justify-content-start">
+          <div class=" product-qty">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                  <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                </button>
+            </span>
+            <input type="text" id="quantity" name="quantity" class="quantity input-number" value="1" style="width: 50px; border: none;">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                    <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                </button>
+            </span>
+        </div>
+          <input type="hidden" value="{{p.id}}" class="product_id" name="" id="">
+          <input type="hidden" value="{{p.title}}" class="product_title" name="" id="">
+
+          <button class="btn vendor-card ms-2 nav-link p-2 px-3" id="add-to-cart-btn" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i>  Add to Cart</button>
+          <button class="btn vendor-card btn-outline-danger p-2 ms-2 px-3" style="border: 2px solid rgb(0, 0, 0,0.2);">
+            <i class="fa-regular fa-heart" style="color: rgb(0, 0, 0,0.2);"></i>
+          </button>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p class="mt-4 text-nowrap small" ><strong>Type:</strong><span class="" style="color: #28a745;"> {{p.category}}</span></p>
+                <p class="small"><strong>MFG Date:</strong> <span class="" style="color: #28a745;"> {{p.mfg|date:"d M Y"}}</span></p>
+                <p class="small"><strong>Life:</strong><span class="" style="color: #28a745;"> {{p.life}}</span></p>
+            </div>
+            <div class="col-md-8">
+                <p class="mt-4 text-nowrap small" ><strong>SKU:</strong><span class="" style="color: #28a745;"> {{p.vid}}</span></p>
+                <p class="small"><strong>Tags:</strong> {% for tag in p.tags.all %}<a class="" href="{% url 'core:tags' tag.slug %}" style="color: #28a745;text-decoration: none;">#{{tag.name}}</a>,{% endfor %}</p>
+                <p class="small"><strong>Stock:</strong><span class="" style="color: #28a745;"> {{p.stock}} in Stocks </span></p>
+            </div>
+        </div>
+          
+          <div class="d-flex pt-2">
+            <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
+            <div class="d-inline-flex">
+              <a class="text-dark px-2" href="">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a class="text-dark px-2" href="">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a class="text-dark px-2" href="">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a class="text-dark px-2" href="">
+                <i class="fab fa-pinterest"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Tabs Section -->
+        <div
+          class="col-md-12 tabs-section mt-5 p-3"
+          style="
+            border: 1px solid rgb(0, 0, 0, 0.2);
+            border-radius: 20px;
+            min-height: 300px;
+          "
+        >
+          <div class="d-flex justify-content-start border-secondary mb-4 p-4">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item me-2" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="description-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#description"
+                  type="button"
+                  role="tab"
+                >
+                  Description
+                </button>
+              </li>
+              <li class="nav-item me-2" role="presentation">
+                <button
+                  class="nav-link"
+                  id="details-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#details"
+                  type="button"
+                  role="tab"
+                >
+                  Additional Details
+                </button>
+              </li>
+              <li class="nav-item me-2" role="presentation">
+                <button
+                  class="nav-link"
+                  id="vendor-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#vendor"
+                  type="button"
+                  role="tab"
+                >
+                  Vendor
+                </button>
+              </li>
+              <li class="nav-item me-2" role="presentation">
+                <button
+                  class="nav-link"
+                  id="reviews-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#reviews"
+                  type="button"
+                  role="tab"
+                >
+                  Reviews ({{reviews.count}})
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content mb-4 p-4" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="description"
+              role="tabpanel"
+            >
+              <p>{{p.description|safe}}</p>
+            </div>
+            <div class="tab-pane fade" id="details" role="tabpanel">
+              Additional details about the product.
+            </div>
+            <div class="tab-pane fade" id="vendor" role="tabpanel">
+              Vendor information and policies.
+            </div>
+            <div class="tab-pane fade" id="reviews" role="tabpanel">
+              <div class="row">
+                <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+                <div class="review_col col-md-6">
+                  
+                  {% for r in reviews %}
+                  <div class="media mb-4">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr3jhpAFYpzxx39DRuXIYxNPXc0zI5F6IiMQ&s"
+                      alt="Image"
+                      class="img-fluid mr-3 mt-1"
+                      style="width: 45px"
+                    />
+                    <div class="media-body">
+                      <h6>
+                        {{ r.user.username|title }}<small> - <i>{{ r.date|date:"d M Y"}}</i></small>
+                      </h6>
+                      <div class="text-primary mb-2">
+                        {% for s in r.rating|ljust:r.rating %}
+                        <i class="fas fa-star"></i>
+                        {% endfor %}
+                        
+                        <!-- <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i> -->
+                      </div>
+                      <p>
+                       {{ r.review }}
+                      </p>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="col-md-6">
+                  <strong class="text-success" id="review_resp"> </strong>
+                  {% if request.user.is_authenticated %}
+                  {% if make_review  %}
+                  <h4 class="mb-4 hide_review">Leave a review</h4>
+                  <small class="hide_review"
+                    >Your email address will not be published. Required fields
+                    are marked *</small
+                  >
+                  
+                  
+                  <form class="comment hide_form" method="POST" id="comment" action="{% url 'core:add_review' p.id%}">
+                    {% csrf_token %}
+                    
+                  <div class="d-flex my-3">
+                    
+                    
+                    <p class="mb-0 mr-2">Your Rating * :</p>
+                    <div class="text-primary">
+                      {{review_form.rating}}
+                      <!-- <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i> -->
+                    </div>
+                  </div>
+                  
+                    <div class="form-group">
+                      <label >Your Review *</label>
+                      {{review_form.review}}
+                      <!-- <textarea
+                        id="message"
+                        cols="30"
+                        rows="5"
+                        class="form-control"
+                      ></textarea> -->
+                    </div>
+                    <div class="form-group mb-0">
+                      <input
+                        type="submit"
+                        value="Leave Your Review"
+                        class="btn b px-2 py-2 vendor-card mt-4"
+                        style="background-color: #28a745;color: white;"
+                      />
+                    </div>
+                  </form>
+                  {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- Right Section: Delivery and Vendor Cards -->
+      <div class="mt-3" style="height:auto">
+        <div class="delivery-card vendor-card bg-secondary">
+          <h5>Delivery Information</h5>
+          <div class="row d-flex justify-content-end align-items-end">
+            <div class="col-md-12">
+                <p class="p-0 m-0 small small">
+                    <i class="fas fa-map-marker-alt" style="border-color: green"></i>
+                    {{address.address}}
+                  </p>
+            </div>
+            
+            <div class="col-md-12 d-flex justify-content-between mt-2">
+                <p class="p-0 m-0 small" style="color: #28a745;">
+                    {% if address.status == True %}
+                    <span style="color: #28a745;">Verified Address</span>
+                    {% else %}
+                    <span style="color: #28a745;">Un-Verified Address</span>
+                    {% endif %}
+                </p>
+                <a href="" class="p-0 m-0 small" style="text-decoration: none; color: green"
+                  >Change</a
+                >
+            </div>
+            
+          </div>
+          <hr />
+          <div>
+            <h5>Return & Warranty</h5>
+            <p class="p-0 m-0">
+              <i
+                class="fa-solid fa-shield me-2"
+                style="border-color: green"
+              ></i>
+              {{vendor.authentic_rating}}% Warrenty
+            </p>
+            <p class="p-0 m-0">
+              <i class="fa-solid fa-rotate-left me-2"></i>
+              {{vendor.days_return}} days return
+            </p>
+            <p class="p-0 m-0">
+              <i
+                class="fa-regular fa-calendar-check me-2"
+                style="border-color: green"
+              ></i>
+              {{vendor.warranty_period}} days warrenty
+            </p>
+          </div>
+        </div>
+        <div class="vendor-card bg-secondary">
+            <h5><strong>Vendor</strong></h5>
+            <div class="row">
+                <div class="col-md-7  d-flex flex-column justify-content-start align-items-start" style="background:url({{ vendor.image.url }});background-size:cover; 
+                background-repeat: no-repeat; 
+                border-radius: 10px;background-position: center; height: 190px;">
+                </div>
+                <div class="col-md-5">
+                    <p class=""><strong style="color: #28a745">{{vendor.title}}</strong></p>
+
+                </div>
+                <div class="col-md-12 mt-3">
+                    <p class="small text-dark mb-1"><i class="fa-solid fa-location-dot" style="color: #28a745;"></i><span class="small"> <strong>Address:</strong> {{vendor.address}} </span></p>
+                    
+                    <p class="small text-dark"><i class="fa-solid fa-headphones" style="color: #28a745;"></i><span class="small"> <strong>Contect Seller:</strong> {{vendor.contact}} </span></p>
+                </div>
+                <hr>
+                <div class="mx-0 p-2">
+                    <div class="col-md-12 d-flex justify-content-between ">
+                    
+                        <div class="col-md-3.7">
+                            <p class="small mb-1" style="color: #28a745;" >Rating</p>
+                            <h5 class=" text-dark" style="font-weight: 550;">{{ vendor.authentic_rating}}%</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="small small mb-1" style="color: #28a745;">Ship on time</p>
+                            <h5 class=" text-dark" style="font-weight: 550;">{{ vendor.shipping_on_time}}%</h5>
+                        </div>
+                        <div class="col-md-4.3">
+                            <p class="small mb-1" style="color: #28a745;">Chat responce</p>
+                            <h5 class=" text-dark" style="font-weight: 550;">{{ vendor.chat_resp_time}}%</h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                      <p class="small text-dark mb-0">Become a Vendor? <a href="" style="text-decoration: none;color: #28a745;font-weight: 600;">Register now</a></p>
+                    </div>
+                </div>
+                
+                
+            </div>
+          
+          
+          
+        </div>
+      </div>
+    </div>
+    <!-- #Related Product -->
+    <div class="row">
+      <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+
+        <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+        
+          {% for p in products%}
+          <div class="col ">
+            <div class="product-item vendor-card">
+              <span class="badge  position-absolute m-3" style="background-color: #28a745;">-{{p.get_percentage | floatformat:0}}%</span>
+              <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+              <figure >
+                <a href="{% url 'core:product_detail' p.pid %}" title="Product Title">
+                  <img src='{{ p.image.url }}'  class="img-fluid tab-image" style="width: 250px; height: 250px; object-fit: cover;">
+                </a>
+              </figure>
+              
+              <div class="row g-0">
+                
+                
+                </div>
+              <h3>{{ p.title|truncatechars:20 }}</h3>
+              <div class="col-md-8 text-start">
+                <span class="rating text-end"><svg width="24" height="24" class="text-primary mb-2"><use xlink:href="#star-solid"></use></svg> </span></div>
+                <span class="rating text-end"> </span>
+              
+              <span class="price" style="color:#22893a ;">${{p.price|floatformat:2}} <s class="small small" style="font-size: small;color: rgb(0, 0, 0, 0.3);">${{p.old_price}}</s></span>
+              
+            </div>
+          </div>
+          {% endfor %}
+          
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
+<!-- jQuery -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- Owl Carousel JS -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script> -->
+
+{% endblock content %}
