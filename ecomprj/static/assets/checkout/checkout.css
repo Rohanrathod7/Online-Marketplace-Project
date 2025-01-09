@@ -1,0 +1,100 @@
+body {
+  font-family: "Arial", sans-serif;
+}
+h3 {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.form-select {
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.form-control {
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.form-control:focus {
+  border-color: #3bb77e;
+}
+.btn-success {
+  background-color: #3bb77e;
+  border: none;
+  border-radius: 6px;
+}
+.btn-success:hover {
+  background-color: #34a96a;
+}
+.checkbox-group label {
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.product-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 4px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.product-details h6 {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.rating {
+  color: #ffd700;
+  font-size: 0.9rem;
+}
+
+.rating span {
+  color: #999;
+  margin-left: 5px;
+}
+
+.quantity {
+  color: #666;
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.price {
+  color: #2e8b57;
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 50px;
+  text-align: right;
+}
+.product-list img {
+  width: 60px;
+  height: auto;
+  margin-right: 15px;
+  border-radius: 6px;
+}
+.product-list {
+  padding: 15px 0;
+}
+.product-title {
+  font-weight: 500;
+  font-size: 14px;
+}
+.product-price {
+  color: #3bb77e;
+  font-weight: bold;
+}
+.subtotal {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3bb77e;
+}
+/* .payment-section {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}*/

@@ -557,22 +557,30 @@
                           <!-- <span class="qty">{% if p.in_stock %}In-Stock{% else %}<p>Out-of-Stocks</p>{% endif %}</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> </span> -->
                           <span class="font-small text-muted">By <a href="vendoe-detail.html">{{p.vendor.title}}</a></span>
                         </div>
-                        <span class="price">${{p.price}}</span>
-                        <div class="d-flex align-items-center justify-content-between">
+                        <span>$<span class="product-price-{{ p.id }}" value="{{ p.price }}" >{{p.price}}</span></span>
+                        <div class="d-flex  justify-content-between">
                           <div class="input-group product-qty">
                               <span class="input-group-btn">
                                   <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
                                     <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
                                   </button>
                               </span>
-                              <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                              <input type="text" id="quantity" name="quantity" class="form-control input-number product-qty-{{ p.id }}" value="1">
                               <span class="input-group-btn">
                                   <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
                                       <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
                                   </button>
                               </span>
                           </div>
-                          <button class="btn vendor-card m-0 nav-link p-2 px-3" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i> </button>
+                          <div class="add-cart">
+                            <input type="hidden" value="{{p.id}}" class="product-id-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.title}}" class="product-title-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.image.url}}" class="product-image-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.pid}}" class="product-pid-{{ p.id }}" name="" id="">
+
+                            <button class="btn vendor-card m-0 nav-link p-2 px-3 add-to-cart-btn" id="add-to-cart-btn" data-index="{{ p.id }}" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i> </button>
+
+                          </div>
                         </div>
                       </div>
                     </div>

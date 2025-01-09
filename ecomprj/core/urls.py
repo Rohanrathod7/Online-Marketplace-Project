@@ -26,7 +26,21 @@ urlpatterns = [
 
     path("filter_product/", views.filter_product, name="filter_product"),
     
+    #add to cart url
     path("add_to_cart/", views.add_to_cart, name="add_to_cart"),
+
+    #cart page 
+    path("cart/", views.cart_view, name="cart"),
+
+    path("delete-from-cart/", views.delete_from_cart, name="delete-from-cart"),
+
+    path("update_from_cart/", views.update_from_cart, name="update_from_cart"),
+
+    path("checkout/", views.checkout_view, name="checkout"),
+
+    path("dashboard/",views.customer_dashboard, name="dashboard"),
+
+    path("dashboard/order/<int:id>", views.order_detail, name="order_detail")
 
 
 ]

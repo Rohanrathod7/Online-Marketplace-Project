@@ -16,6 +16,70 @@ const monthname = [
 
 // review
 
+// Content for different navigation items
+const contents = {
+  orders: `
+    <h3>Your Orders</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#1357</td>
+          <td>March 45, 2020</td>
+          <td>Processing</td>
+          <td>$125.00 for 2 items</td>
+          <td><a href="#" class="text-success">View</a></td>
+        </tr>
+        <tr>
+          <td>#2468</td>
+          <td>June 29, 2020</td>
+          <td>Completed</td>
+          <td>$364.00 for 5 items</td>
+          <td><a href="#" class="text-success">View</a></td>
+        </tr>
+        <tr>
+          <td>#2366</td>
+          <td>August 02, 2020</td>
+          <td>Completed</td>
+          <td>$280.00 for 3 items</td>
+          <td><a href="#" class="text-success">View</a></td>
+        </tr>
+      </tbody>
+    </table>
+  `,
+  "track-order":
+    "<h3>Track Your Order</h3><p>Content for tracking your order goes here.</p>",
+  address:
+    "<h3>My Address</h3><p>Content for managing addresses goes here.</p>",
+  "account-details":
+    "<h3>Account Details</h3><p>Content for account details goes here.</p>",
+  logout: "<h3>Logout</h3><p>You have logged out.</p>",
+};
+
+// Handle navigation click
+document.querySelectorAll(".nav-link").forEach((navLink) => {
+  navLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Update active link
+    document
+      .querySelectorAll(".nav-link")
+      .forEach((link) => link.classList.remove("active"));
+    navLink.classList.add("active");
+
+    // Update content area
+    const contentKey = navLink.getAttribute("data-content");
+    document.getElementById("content-area").innerHTML = contents[contentKey];
+  });
+});
+
 $("#comment").submit(function (e) {
   e.preventDefault(); //prevent refresh
 
@@ -84,6 +148,9 @@ $("#comment").submit(function (e) {
 });
 
 $(document).ready(function () {
+  // Fetch the CSRF token from the meta tag
+  const csrftoken = $("meta[name='csrf-token']").attr("content");
+
   $(".filter-checkbox, #price-range-btn").on("click", function () {
     console.log("checkbox have been clicked");
     console.log($(".filter-checkbox").length);
@@ -165,43 +232,162 @@ $(document).ready(function () {
     //   },
     // });
   });
-});
 
-// Add to cart
-$("#add-to-cart-btn").on("click", function () {
-  console.log("Add to cart clicked");
+  //add to cart actual
+  $(".add-to-cart-btn").on("click", function () {
+    console.log("Add to cart clicked");
 
-  let product_id = $(".product_id").val();
-  let quantity = $(".quantity").val();
-  let product_title = $(".product_title").val();
-  let product_price = $(".product_price").text();
-  let current_button = $(this);
+    let current_button = $(this);
+    let index = current_button.attr("data-index");
+    let product_id = $(".product-id-" + index).val();
+    let quantity = $(".product-qty-" + index).val();
+    let product_title = $(".product-title-" + index).val();
+    let product_price = $(".product-price-" + index).text();
+    let product_pid = $(".product-pid-" + index).val();
+    let product_image = $(".product-image-" + index).val();
 
-  console.log(product_id);
-  console.log(quantity);
-  console.log(product_title);
-  console.log(product_price);
+    console.log(product_id);
+    console.log(quantity);
+    console.log(product_title);
+    console.log(product_price);
+    console.log(product_pid);
+    console.log(product_image);
 
-  $.ajax({
-    url: "/add_to_cart",
-    data: {
-      id: product_id,
-      qty: quantity,
-      title: product_title,
-      price: product_price,
-    },
-    dataType: "json",
-    beforeSend: function () {
-      console.log("Adding Product to cart...");
-    },
-    success: function (res) {
-      console.log("task completed successfully");
-      console.log(res.total);
-      current_button.html("Added to cart");
-      console.log(res);
+    $.ajax({
+      url: "/add_to_cart",
+      data: {
+        id: product_id,
+        pid: product_pid,
+        image: product_image,
+        qty: quantity,
+        title: product_title,
+        price: product_price,
+      },
+      dataType: "json",
+      beforeSend: function () {
+        console.log("Adding Product to cart...");
+      },
+      success: function (res) {
+        console.log("task completed successfully");
+        console.log(res.total);
+        current_button.html("<span>&#10003;</span>");
+        console.log(res);
 
-      $(".cart_count").text(res.total);
-      $(".cart_total_price").text(res.totalsum);
-    },
+        $(".cart_count").text(res.total);
+        $(".cart_total_price").text(res.totalsum);
+      },
+    });
+  });
+
+  $(document).on("click", ".delete_product", function () {
+    let product_id = $(this).attr("data_prodct");
+
+    console.log(product_id);
+    var jq = jQuery.noConflict(); //jquery 1.11 and 3.1 conflict $ sign and it doesnt work
+
+    jq.ajax({
+      url: "/delete-from-cart",
+      data: {
+        id: product_id,
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $(this).hide();
+      },
+      success: function (response) {
+        $(this).show();
+        $(".cart_total_price").text(response.totalsum);
+        $(".cart_count").text(response.total);
+        $("#cart-list").html(response.data);
+      },
+    });
+  });
+
+  //
+  // Use delegated event binding:
+  $(document).on("click", ".update_product", function () {
+    // let product_id = $(".product_id").attr("data-index");
+    // let product_qty = $(".product-qty-" + product_id).val();
+
+    // console.log(product_id);
+
+    let products = {};
+
+    // Iterate over all products in the cart and collect their IDs and quantities
+    $(".product-row").each(function () {
+      let product_id = $(this).find(".product_id").attr("data-index"); // Get product ID find product_id class in this template
+      let product_qty = $(this)
+        .find(".product-qty-" + product_id)
+        .val(); // Get product quantity // Get product ID
+
+      // Add to the products object
+      console.log(product_id);
+      console.log(product_qty);
+      products[product_id] = product_qty;
+    });
+
+    console.log(products);
+    var jq = jQuery.noConflict(); //jquery 1.11 and 3.1 conflict $ sign and it doesnt work Reason for views not wrking but js does
+    jq.ajax({
+      url: "/update_from_cart/",
+      method: "POST",
+      headers: {
+        "X-CSRFToken": csrftoken, // Add the CSRF token here
+      },
+      data: {
+        products: JSON.stringify(products),
+        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), // Add CSRF token for security
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $(this).hide();
+        console.log("working ");
+      },
+      success: function (response) {
+        $(this).show();
+        $(".cart_total_price").text(response.totalsum);
+        $(".cart_count").text(response.total);
+        $("#cart-list").html(response.data);
+      },
+    });
   });
 });
+
+// Add to cart bassed on session and session data
+// $("#add-to-cart-btn").on("click", function () {
+//   console.log("Add to cart clicked");
+
+//   let product_id = $(".product_id").val();
+//   let quantity = $(".quantity").val();
+//   let product_title = $(".product_title").val();
+//   let product_price = $(".product_price").text();
+//   let current_button = $(this);
+
+//   console.log(product_id);
+//   console.log(quantity);
+//   console.log(product_title);
+//   console.log(product_price);
+
+//   $.ajax({
+//     url: "/add_to_cart",
+//     data: {
+//       id: product_id,
+//       qty: quantity,
+//       title: product_title,
+//       price: product_price,
+//     },
+//     dataType: "json",
+//     beforeSend: function () {
+//       console.log("Adding Product to cart...");
+//     },
+//     success: function (res) {
+//       console.log("task completed successfully");
+//       console.log(res.total);
+//       current_button.html("Added to cart");
+//       console.log(res);
+
+//       $(".cart_count").text(res.total);
+//       $(".cart_total_price").text(res.totalsum);
+//     },
+//   });
+// });

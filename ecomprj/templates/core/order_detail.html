@@ -1,0 +1,148 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-3 sidebar">
+        <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+          <a
+            href="{% url 'core:dashboard' %}"
+            class="custom-nav-link m-0"
+            id="dashboard-tab"
+            style="
+              padding-top: 2px;
+              padding-bottom: 2px;
+              text-decoration: none;
+              height: 62px;
+            "
+            ><div class="custom-nav-item pt-2 pb-2 ps-4">
+              <i class="fa-solid fa-sliders"></i>
+              <span class="strong"> Dashboard</span>
+            </div>
+          </a>
+
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4 active"
+              id="order-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#order"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-bag-shopping"></i
+              ><span class="strong"> Orders</span>
+            </a>
+          </li>
+
+          <a
+            href="{% url 'userauths:sign-out'%}"
+            class="custom-nav-link m-0"
+            id="dashboard-tab"
+            style="
+              padding-top: 2px;
+              padding-bottom: 2px;
+              text-decoration: none;
+              height: 62px;
+            "
+            ><div class="custom-nav-item pt-2 pb-2 ps-4">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
+          </a>
+        </ul>
+      </div>
+
+      <!-- Content -->
+      <div class="tab-content col-md-7 col-lg-7 m-2 pe-3" id="myTabContent">
+        <div class="tab-pane fade" id="dashboard" role="tabpanel">
+          <h2>Hello {{request.user|title}}!</h2>
+          <br />
+          <p>From your account dashboard you can easily check & view</p>
+        </div>
+        <div class="tab-pane fade show active" id="order" role="tabpanel">
+          <table
+            class="table table-bordered"
+            style="border: 1px solid rgb(0, 0, 0, 0.3); color: rgb(0, 0, 0)"
+          >
+            <thead>
+              <tr>
+                <th style="width: 30px">Order INV</th>
+                <th style="width: 30px; height: 30px">Image</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in order_item %}
+              <tr>
+                <td>INV-{{p.id}}</td>
+                <td style="width: 60px; height: 60px">
+                  <p>
+                    <img
+                      src="{{p.images}}"
+                      alt=""
+                      style="width: 70px; height: 70px; object-fit: contain"
+                    />
+                  </p>
+                </td>
+                <td>{{p.item}}</td>
+
+                <td>${{p.price}}</td>
+                <td>${{p.qty}}</td>
+                <td>${{p.total}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="trackyourorder" role="tabpanel">
+          <h3>Your Orders</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in orders %}
+              <tr>
+                <td>#{{o.id}}</td>
+                <td>{{o.order_date}}</td>
+                <td>Processing</td>
+                <td>$125.00 for 2 items</td>
+                <td><a href="#" class="text-success">View</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="myaddress" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="accountdetail" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="logout" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+</body>
+{% endblock %}

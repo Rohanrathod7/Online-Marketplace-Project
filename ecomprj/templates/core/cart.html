@@ -1,0 +1,160 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+
+  <body>
+    
+    <div class="container mt-5" id="cart-list">
+        <div>
+            <div class="blocks p-7 m-6 align-self-start">
+                <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '|';">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Pages</li>
+                      <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                    </ol>
+                  </nav>
+            </div>
+        </div>
+      
+
+      <div class="row d-flex">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between">
+                <div>
+                  <h2>Your Cart</h2>
+                  <p>There are {{ request.session.cart_total_products }} products in your cart</p>
+                </div>
+                <div>
+                    <button
+                  class="btn btn-suc mt-3 mb-1 p-2"
+                  style="
+                    color: rgb(0, 0, 0, 0.3);
+                    border: 1px solid rgb(0, 0, 0, 0.2);
+                    
+                  "
+                >
+                  <i class="fas fa-trash"></i> Clear Cart
+                </button>
+                </div>
+                
+              </div>
+          <div
+            class=""
+            style="
+              border: 1px solid rgb(54, 54, 54, 0.2);
+              border-radius: 20px;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <table class="table cart-table ">
+              <thead>
+                <tr class="cart-header " style="height: 50px;border-radius: 20px;">
+                  <th scope="col" style="padding-left:30px;width: 700px;">Product</th>
+                  <th scope="col">Unit Price</th>
+                  <th scope="col" >Quantity</th>
+                  <th scope="col">Subtotal</th>
+                  <th scope="col">Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example Row 1 -->
+                 {% for product_id, item in data.items %}
+                <tr class="product-row">
+                  <td class="p-2 ps-3" >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="{{ item.image }}"
+                        class="me-3"
+                        alt="Product Image"
+                        style="height: 90px; width: 90px;"
+                      />
+                      <div>
+                        <div><a href="{% url 'core:product_detail' item.pid %}" class="product_id" data-index="{{product_id}}" style="text-decoration: none;">{{ item.title }}</a></div>
+                        <small class="text-muted"
+                          >Rating:
+                          <span class="text-warning">&#9733; 4.0</span></small
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4" style="padding: 30px;">{{item.price|floatformat:2}}</td>
+                  <td class="p-4" style="padding: 5px;width: 70px">
+                    <input
+                      type="number"
+                      class="form-control product-qty-{{product_id}}"
+                      value="{{ item.qty }}"
+                      min="1"
+                      style="width: 70px"
+                    />
+                  </td>
+                  <td class="fw-bolder p-4" style="color: rgb(0, 128, 0); padding: 30px;">${% widthratio item.price 1 item.qty %}</td>
+                  <td class="p-4" style="padding: 30px;">
+                    <button class="btn btn-danger btn-sm delete_product" data_prodct="{{product_id}}">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mt-4 mb-4">
+            <button class="btn btn-success ps-3 pe-3" variant="ghost" style="color: white;">
+              ← Continue Shopping
+            </button>
+            <button class="btn btn-success ps-3 pe-3 update_product" variant="outline" style="color: white;">
+              ↻ Update Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="mt-5">
+
+
+            </div>
+          <div
+            class="card "
+            style="
+              border-radius: 20px;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              margin-top:95px;
+            "
+          >
+            <div class="card-body " >
+              <div class="row mb-3">
+                <div class="col-6">Subtotal</div>
+                <div class="col-6">${{ cart_total_ammount|floatformat:2 }}</div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6">Shipping</div>
+                <div class="col-6">Free</div>
+              </div>
+              
+              <div class="row">
+                <div class="col-6"><b>Total</b></div>
+                <div class="col-6"><b>${{ cart_total_ammount|floatformat:2 }}</b></div>
+              </div>
+              {% if total > 0 %}
+              
+              <a 
+            class="btn btn-dark btn-block vendor-card p-2 mt-3" 
+            href="{% url 'core:checkout' %}" 
+            style="background-color: black;color: white;width: 100%"
+          >
+          Continue to checkout
+          </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+
+{% endblock content %}

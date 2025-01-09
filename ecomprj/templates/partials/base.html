@@ -11,12 +11,17 @@
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gUgBZKEvo8McQic0AB4Bqo/wl1+x2L6lJk90AY+hmUdr+L+yM+n0JNMt/mZma+bIDUTT/tE='
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/vendor.css' %}">
@@ -59,6 +64,9 @@
 
     <!-- detail page -->
      <link rel="stylesheet" href="{% static 'assets/detail/detail-page.css' %}">
+     <link rel="stylesheet" href="{% static 'assets/checkout/checkout.css' %}">
+     <link rel="stylesheet" href="{% static 'assets/dashboard/dashboard.css' %}">
+
     
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -137,38 +145,50 @@
       <div class="offcanvas-body">
         <div class="order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Your cart</span>
-            <span class="badge bg-primary rounded-pill cart_count">3</span>
+            <a href="{% url 'core:cart' %}" style="text-decoration: none;"><span class="text-success">Your cart</span></a>
+            <span class="badge bg-success rounded-pill cart_count">{{ request.session.cart_total_products }}</span>
           </h4>
           <ul class="list-group mb-3">
+            {% for key , values in request.session.cart_data_obj.items %}
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
-                <h6 class="my-0">Growers cider</h6>
-                <small class="text-body-secondary">Brief description</small>
+                <div class="d-flex">
+                  <img src="{{values.image}}" alt="" class="m-2" style="height: 50px;width: 50px;border-radius: 50px;">
+                  <div>
+                    <h6 class="my-0 mt-3">{{ values.title }}</h6>
+                    <small class="text-body-secondary">QTY : {{ values.qty }}</small>
+                  </div>
+                 
+                </div>
+                
+                
               </div>
-              <span class="text-body-secondary">$12</span>
+              <span class="text-body-secondary">{% widthratio values.price 1 values.qty %}</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Fresh grapes</h6>
-                <small class="text-body-secondary">Brief description</small>
-              </div>
-              <span class="text-body-secondary">$8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Heinz tomato ketchup</h6>
-                <small class="text-body-secondary">Brief description</small>
-              </div>
-              <span class="text-body-secondary">$5</span>
-            </li>
+            {% endfor %}
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (USD)</span>
-              <span>$<strong class="cart_total_price">0</strong></span>
+              <span>$<strong class="cart_total_price">{{ request.session.cart_total_price|floatformat:2 }}</strong></span>
             </li>
           </ul>
-  
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <div class="d-flex justify-content-between">
+            <a 
+            class="btn btn-outline-success vendor-card p-2" 
+            href="{% url 'core:cart' %}" 
+            style="width: 30%;"
+          >
+            View Cart
+          </a>
+          
+          <a 
+            class="btn btn-success vendor-card p-2" 
+            href="{% url 'core:checkout' %}" 
+            style="background-color: #28a745;color: white;"
+          >
+          Continue to checkout
+          </a>
+          
+          </div>
         </div>
       </div>
     </div>
@@ -251,7 +271,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle rounded bg-light p-2 mx-1" role="button" id="account" data-bs-toggle="dropdown" aria-expanded="false"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>Account</a>
                     <ul class="dropdown-menu" aria-labelledby="Account">
-                      <li><a href="account.html" class="dropdown-item">My Account </a></li>
+                      <li><a href="{% url 'core:dashboard' %}" class="dropdown-item">My Account </a></li>
                       <li><a href="order.html" class="dropdown-item">Order Tracking </a></li>
                       <li><a href="voucher.html" class="dropdown-item">My Voucher </a></li>
                       <li><a href="wishlist.html" class="dropdown-item">My Wishlist</a></li>
@@ -280,13 +300,18 @@
             <div class="cart text-end d-none d-lg-block dropdown">
               <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                 
-                <span class="fs-6 text-muted "> <i class="fa-solid fa-cart-shopping" style="font-size: x-large;"></i> Cart</span>
-                {% if request.session.cart_total_products == NULL %}
-                <span class="position-absolute top-0 start-100 translate-middle p-2  border-light rounded-circle" style="background-color: #28a745;">{{ request.session.cart_total_products }}</span>
-                {% else %}
-                <span class=" position-absolute top-0 start-100 translate-middle badge rounded-pill  " style="background-color: #28a745;"><span class="small cart_count">{{ request.session.cart_total_products }}</span></span>
-                {% endif %}
-                <span style=" margin-left: auto;text-align: right;">$<span class="cart-total fs-5 fw-bold cart_total_price"> {{request.session.cart_total_price}}</span></span>
+                <span class="fs-6 text-muted "><i class="fa-solid fa-cart-shopping" style="font-size: x-large;"></i></span>
+                
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color: #28a745;">
+                  <span class="small cart_count">
+                      {% if request.session.cart_total_products %}
+                          {{ request.session.cart_total_products }}
+                      {% else %}
+                          0
+                      {% endif %}
+                  </span>
+              </span>
+                              
                 
               </button>
             </div>
@@ -359,7 +384,7 @@
                       <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                       <ul class="dropdown-menu " aria-labelledby="pages">
                         <li style="width: 200px;"><a href="about.html" class="dropdown-item text-dark text-decoration-none ">About Us </a></li>
-                        <li style="width: 200px;"><a href="shop.html" class="dropdown-item text-dark text-decoration-none">Shop </a></li>
+                        <li style="width: 200px;"><a href="{% url 'core:product_list' %}" class="dropdown-item text-dark text-decoration-none">Shop </a></li>
                         <li style="width: 200px;" style="width: 200px;"><a href="single-product.html" class="dropdown-item text-dark text-decoration-none">Single Product </a></li>
                         <li><a href="cart.html" class="dropdown-item text-dark text-decoration-none">Cart </a></li>
                         <li><a href="checkout.html" class="dropdown-item text-dark text-decoration-none">Checkout </a></li>
@@ -576,6 +601,7 @@
     <script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'assets/js/mixitup.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    
     <!-- <script src="{% static 'js/main.js' %}"></script> -->
     <!-- ck-editor -->
     <!-- Highlight.js Script -->
@@ -585,6 +611,7 @@
     <script src="{% static 'assets/js/custom_ck.js' %}"></script>
     <!-- comment -->
     <script src="{% static 'assets/js/function.js' %}" defer></script>
+    
 
     <script>
       const toggleButton = document.getElementById("toggleButton");

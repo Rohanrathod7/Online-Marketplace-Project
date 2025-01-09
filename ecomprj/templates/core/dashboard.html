@@ -1,0 +1,189 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-3 sidebar">
+        <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link active ps-4"
+              id="dashboard-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#dashboard"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-sliders"></i>
+              <span class="strong"> Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
+              id="order-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#order"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-bag-shopping"></i
+              ><span class="strong"> Orders</span>
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
+              id="trackyourorder-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#trackyourorder"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-cart-shopping"></i> Track Your Order
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
+              id="myaddress-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#myaddress"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-location-dot"></i> My Address
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
+              id="accountdetail-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#accountdetail"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-user"></i> Account Details
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
+              id="logout-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#logout"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Content -->
+      <div class="tab-content col-md-7 col-lg-7 m-2 pe-3" id="myTabContent">
+        <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+          <h2>Hello {{request.user|title}}!</h2>
+          <br />
+          <p>From your account dashboard you can easily check & view</p>
+        </div>
+        <div class="tab-pane fade" id="order" role="tabpanel">
+          <table
+            class="table table-bordered"
+            style="border: 1px solid rgb(0, 0, 0, 0.3); color: rgb(0, 0, 0)"
+          >
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Paid Status</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in order %}
+              <tr>
+                <td>INVOICE_NO-{{o.id}}</td>
+                <td>{{o.order_date}}</td>
+                <td>{{o.product_status}}</td>
+                {% if o.paid_status == True %}
+                <td>
+                  <i class="fa-solid fa-check" style="color: #15d59c"></i>
+                </td>
+                {% else %}
+                <td>
+                  <i class="fa-solid fa-xmark lg" style="color: #fb5e09"></i>
+                </td>
+                {% endif %}
+                <td>${{o.price}}</td>
+                <td>
+                  <a
+                    href="{% url 'core:order_detail' o.id%}"
+                    class="text-success"
+                    style="text-decoration: none"
+                    >View</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="trackyourorder" role="tabpanel">
+          <h3>Your Orders</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in orders %}
+              <tr>
+                <td>#{{o.id}}</td>
+                <td>{{o.order_date}}</td>
+                <td>Processing</td>
+                <td>$125.00 for 2 items</td>
+                <td><a href="#" class="text-success">View</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="myaddress" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="accountdetail" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="logout" role="tabpanel">
+          <div class="row">
+            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+</body>
+{% endblock %}

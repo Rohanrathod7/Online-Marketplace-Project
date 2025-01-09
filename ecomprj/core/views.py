@@ -1,10 +1,15 @@
+import json
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Product, Vendor, Category, ProductImages, ProductReview, CartOrderItems, CartOrder, wishlist, Address
 from django.db.models import Count, Avg
 from taggit.models import Tag
 from core.forms import ProductReviewForm
 from django.template.loader import render_to_string
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -193,6 +198,8 @@ def add_to_cart(request):
         'title':request.GET['title'],
         'qty':request.GET['qty'],
         'price':request.GET['price'],
+        'image':request.GET['image'],
+        'pid':request.GET['pid'],
     }
 
     if 'cart_data_obj' in request.session:
@@ -206,7 +213,7 @@ def add_to_cart(request):
     else:
         request.session['cart_data_obj'] = cart_product
 
-    totalsum = 0
+    
     totalsum = sum(
     float(item['price']) * float(item['qty']) 
     for item in request.session['cart_data_obj'].values()
@@ -220,7 +227,137 @@ def add_to_cart(request):
 
 
     return JsonResponse({'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products']})
+
+def cart_view(request):
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for key, value in request.session['cart_data_obj'].items():
+            cart_total_amount += int(value['qty']) * float(value['price'])
+        return render(request, "core/cart.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products'],'cart_total_ammount':cart_total_amount})  
+    else:
+        messages.warning(request, "Your Cart is Empty")
+        return redirect( "core:index")
+
+
+def delete_from_cart(request):
+    product_id = str(request.GET['id'])
+
+    if 'cart_data_obj' in request.session:
+        if product_id in request.session['cart_data_obj']:
+            cart_data = request.session['cart_data_obj']
+            del request.session['cart_data_obj'][product_id]
+            request.session['cart_data_obj'] = cart_data
+
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for key, value in request.session['cart_data_obj'].items():
+            cart_total_amount += int(value['qty']) * float(value['price'])
+    
+    
+    
+    totalsum = sum(
+    float(item['price']) * float(item['qty']) 
+    for item in request.session['cart_data_obj'].values()
+    )
+    total = sum(
+     float(item['qty']) 
+    for item in request.session['cart_data_obj'].values()
+    )
+    request.session['cart_total_price'] = int(totalsum)
+    request.session['cart_total_products'] = int(total)
+
+    context = render_to_string("core/async/cart-list.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products']})
+
+    return JsonResponse({"data":context, 'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products']})
+    
+    # context is getting sended as data -> data contains html code used by cart-list id -> data contains data totalsum total getting used in cart-list html code
+    # cart-list.html is only able to acces sended data not session data i think its becouse of js
+    # in html reqest.ses.cart total prdo or .. is just an initial price when you make change like delete then total sum class name value in js is what actua;;y make changes
+
+
+@csrf_exempt
+def update_from_cart(request):
+    if request.method == "POST":
+        products = json.loads(request.POST.get("products", "{}"))
         
+        print(products)
+        if 'cart_data_obj' in request.session:
+            cart_data = request.session['cart_data_obj']
+            for product_id, qty in products.items():
+                if product_id in cart_data:
+                    cart_data[product_id]["qty"] = int(qty)    
+                
+                cart_data.update(cart_data)
+                    
+            request.session['cart_data_obj'] = cart_data
+
+        cart_total_amount = 0
+        if 'cart_data_obj' in request.session:
+            for key, value in request.session['cart_data_obj'].items():
+                cart_total_amount += int(value['qty']) * float(value['price'])
+        
+        
+        
+        totalsum = sum(
+        float(item['price']) * float(item['qty']) 
+        for item in request.session['cart_data_obj'].values()
+        )
+        total = sum(
+        float(item['qty']) 
+        for item in request.session['cart_data_obj'].values()
+        )
+        request.session['cart_total_price'] = int(totalsum)
+        request.session['cart_total_products'] = int(total)
+
+        context = render_to_string("core/async/cart-list.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products']},)
+
+        return JsonResponse({"data":context, 'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products']})
+    
+def checkout_view(request):
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+            for key, value in request.session['cart_data_obj'].items():
+                cart_total_amount += int(value['qty']) * float(value['price'])
+
+            order = CartOrder.objects.create(
+                user = request.user,
+                price = cart_total_amount
+            )
+
+            for key, item in request.session['cart_data_obj'].items():
+                cart_total_amount += int(item['qty']) * float(item['price'])
+
+                cart_order_item = CartOrderItems.objects.create(
+                    order = order,
+                    invoice_no = "INVOICE_NO-" + str(order.id),
+                    item = item['title'],
+                    images = item['image'],
+                    qty =item['qty'],
+                    price = item['price'],
+                    total = float(int(item['qty']) * float(item['price']))
+                )
+
+
+    return render(request, "core/checkout.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products'],'cart_total_ammount':cart_total_amount})  
+
+@login_required
+def customer_dashboard(request):
+    orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+
+    context = {
+        "order": orders,
+    }
+    return render( request, 'core/dashboard.html', context)
+
+def order_detail(request, id):
+    order = CartOrder.objects.get(user = request.user, id = id)
+    order_item = CartOrderItems.objects.filter(order = order)
+
+    context ={
+        "order_item":order_item
+    }
+
+    return render(request, "core/order_detail.html", context)
 
 
 

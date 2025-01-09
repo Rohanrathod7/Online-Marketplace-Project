@@ -43,10 +43,10 @@
           <p>
             <div class="d-flex">
             <span class="text-success"
-              >$<span class="product_price" style="color: green;font-size: 1.5rem; font-weight: bold; ">{{p.price}} </span>
+              >$<span class="product_price product-price-{{ p.id }}" style="color: rgb(0, 128, 0);font-size: 1.5rem; font-weight: bold; ">{{p.price}} </span>
             </span>
             <span class="old-price"> ${{ p.old_price}}</span>
-        </div>
+          </div>
           </p>
           <p class="product-description">
             {{p.description|truncatechars:40}}
@@ -59,17 +59,22 @@
                   <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
                 </button>
             </span>
-            <input type="text" id="quantity" name="quantity" class="quantity input-number" value="1" style="width: 50px; border: none;">
+            <input type="text" id="quantity" name="quantity" class="quantity input-number product-qty-{{ p.id }}" value="1" style="width: 50px; border: none;">
             <span class="input-group-btn">
                 <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
                     <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
                 </button>
             </span>
         </div>
-          <input type="hidden" value="{{p.id}}" class="product_id" name="" id="">
-          <input type="hidden" value="{{p.title}}" class="product_title" name="" id="">
+          <!-- <input type="hidden" value="{{p.id}}" class="product_id" name="" id="">
+          <input type="hidden" value="{{p.title}}" class="product_title" name="" id=""> -->
+          <input type="hidden" value="{{p.id}}" class="product-id-{{ p.id }}" name="" id="">
+          <input type="hidden" value="{{p.title}}" class="product-title-{{ p.id }}" name="" id="">
+          <input type="hidden" value="{{p.image.url}}" class="product-image-{{ p.id }}" name="" id="">
+          <input type="hidden" value="{{p.pid}}" class="product-pid-{{ p.id }}" name="" id="">
 
-          <button class="btn vendor-card ms-2 nav-link p-2 px-3" id="add-to-cart-btn" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i>  Add to Cart</button>
+
+          <button class="btn vendor-card ms-2 nav-link p-2 px-3 add-to-cart-btn" id="add-to-cart-btn" data-index="{{ p.id }}" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i>  Add to Cart</button>
           <button class="btn vendor-card btn-outline-danger p-2 ms-2 px-3" style="border: 2px solid rgb(0, 0, 0,0.2);">
             <i class="fa-regular fa-heart" style="color: rgb(0, 0, 0,0.2);"></i>
           </button>
