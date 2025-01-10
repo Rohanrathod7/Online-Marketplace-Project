@@ -216,25 +216,43 @@
               </div>
               <div class="card">
                 <div class="card-body border rounded">
-                  <address class="p-2">
+                  <address class="mb-0">
                     <p class="m-0">{{a.address}}</p>
-                    <p class="m-0">{{a.mobile}}</p>
-
-                    {% if a.status == True %}
-                    <td>
-                      <i
-                        class="fa-solid fa-circle-check"
-                        style="color: #269009"
-                      ></i>
-                    </td>
-                    {% else %}
-                    <td>
-                      <button class="btn btn-success mb-0" style="color: white">
-                        Make Default
-                      </button>
-                    </td>
-                    {% endif %}
+                    {% if a.mobile %}
+                    <p class="m-0">Phone-{{a.mobile}}</p>
+                    {% else %} {% endif %}
                   </address>
+                  {% if a.status == True %}
+                  <td>
+                    <i
+                      data-address-id="{{a.id}}"
+                      class="fa-solid fa-circle-check m-0 check check{{a.id}}"
+                      style="color: #269009"
+                    ></i>
+                    <button
+                      data-address-id="{{a.id}}"
+                      class="btn btn-success mt-2 make-default-address button{{a.id}} action_btn"
+                      style="color: white; display: none"
+                    >
+                      Make Default
+                    </button>
+                  </td>
+                  {% else %}
+                  <td>
+                    <i
+                      data-address-id="{{a.id}}"
+                      class="fa-solid fa-circle-check m-0 check check{{a.id}}"
+                      style="color: #269009; display: none"
+                    ></i>
+                    <button
+                      data-address-id="{{a.id}}"
+                      class="btn btn-success mt-2 make-default-address button{{a.id}} action_btn"
+                      style="color: white"
+                    >
+                      Make Default
+                    </button>
+                  </td>
+                  {% endif %}
                 </div>
               </div>
             </div>

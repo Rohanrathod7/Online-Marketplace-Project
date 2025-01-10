@@ -17,52 +17,6 @@ const monthname = [
 // review
 
 // Content for different navigation items
-const contents = {
-  orders: `
-    <h3>Your Orders</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Order</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Total</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#1357</td>
-          <td>March 45, 2020</td>
-          <td>Processing</td>
-          <td>$125.00 for 2 items</td>
-          <td><a href="#" class="text-success">View</a></td>
-        </tr>
-        <tr>
-          <td>#2468</td>
-          <td>June 29, 2020</td>
-          <td>Completed</td>
-          <td>$364.00 for 5 items</td>
-          <td><a href="#" class="text-success">View</a></td>
-        </tr>
-        <tr>
-          <td>#2366</td>
-          <td>August 02, 2020</td>
-          <td>Completed</td>
-          <td>$280.00 for 3 items</td>
-          <td><a href="#" class="text-success">View</a></td>
-        </tr>
-      </tbody>
-    </table>
-  `,
-  "track-order":
-    "<h3>Track Your Order</h3><p>Content for tracking your order goes here.</p>",
-  address:
-    "<h3>My Address</h3><p>Content for managing addresses goes here.</p>",
-  "account-details":
-    "<h3>Account Details</h3><p>Content for account details goes here.</p>",
-  logout: "<h3>Logout</h3><p>You have logged out.</p>",
-};
 
 // Handle navigation click
 document.querySelectorAll(".nav-link").forEach((navLink) => {
@@ -351,8 +305,33 @@ $(document).ready(function () {
       },
     });
   });
-});
 
+  // make default address
+  $(document).on("click", ".make-default-address", function () {
+    let id = $(this).attr("data-address-id");
+    let this_val = $(this);
+
+    console.log(id);
+
+    $.ajax({
+      url: "/make_default_address",
+      data: {
+        id: id,
+      },
+      dataType: "json",
+      success: function (res) {
+        console.log("address is added");
+        if (res.boolean == true) {
+          $(".check").hide();
+          $(".action_btn").show();
+
+          $(".check" + id).show();
+          $(".button" + id).hide();
+        }
+      },
+    });
+  });
+});
 // Add to cart bassed on session and session data
 // $("#add-to-cart-btn").on("click", function () {
 //   console.log("Add to cart clicked");

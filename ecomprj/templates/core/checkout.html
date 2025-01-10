@@ -33,7 +33,9 @@
               <input
                 type="text"
                 class="form-control"
+                value="{{request.user|title}}"
                 placeholder="First Name *"
+                style="color: black"
                 required
               />
             </div>
@@ -41,7 +43,9 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Last Name *"
+                value="{{user_address.mobile}}"
+                placeholder="Mobile *"
+                style="color: black"
                 required
               />
             </div>
@@ -50,60 +54,13 @@
             <input
               type="text"
               class="form-control"
+              value="{{user_address.address}}"
               placeholder="Address *"
+              style="color: black"
               required
             />
           </div>
-          <div class="mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Address Line 2"
-            />
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="City / Town *"
-                required
-              />
-            </div>
-            <div class="col-md-6">
-              <select class="form-select" required>
-                <option selected disabled>State *</option>
-                <option value="1">State 1</option>
-                <option value="2">State 2</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Postcode / ZIP *"
-                required
-              />
-            </div>
-            <div class="col-md-6">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Phone *"
-                required
-              />
-            </div>
-          </div>
-          <div class="mb-3">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Email *"
-              required
-            />
-          </div>
+
           <div class="form-check mb-3">
             <input
               type="checkbox"

@@ -40,7 +40,9 @@ urlpatterns = [
 
     path("dashboard/",views.customer_dashboard, name="dashboard"),
 
-    path("dashboard/order/<int:id>", views.order_detail, name="order_detail")
+    path("dashboard/order/<int:id>", views.order_detail, name="order_detail"),
+
+    path("make_default_address/", views.make_default_address, name="make_default-address")
 
 
 ]

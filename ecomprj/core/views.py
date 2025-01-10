@@ -336,9 +336,13 @@ def checkout_view(request):
                     price = item['price'],
                     total = float(int(item['qty']) * float(item['price']))
                 )
+    try:
+        user_address = Address.objects.get(user = request.user, status = True)
+    except:
+        messages.warning(request, "There are multiple default addresses only one should be actice")
+        user_address = None
 
-
-    return render(request, "core/checkout.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products'],'cart_total_ammount':cart_total_amount})  
+    return render(request, "core/checkout.html", {'data': request.session['cart_data_obj'],'totalsum':request.session['cart_total_price'], 'total': request.session['cart_total_products'],'cart_total_ammount':cart_total_amount, "user_address":user_address})  
 
 @login_required
 def customer_dashboard(request):
@@ -378,7 +382,13 @@ def order_detail(request, id):
 
     return render(request, "core/order_detail.html", context)
 
+def make_default_address(request):
+    id = str(request.GET['id'])
+    Address.objects.update(status=False)
+    Address.objects.filter(id = id).update(status = True)
 
+    return JsonResponse({"boolean":True})
+    
 
 #Set-ExecutionPolicy Unrestricted -Scope Process
 #venv\Scripts\activate
