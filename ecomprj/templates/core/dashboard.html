@@ -17,7 +17,7 @@
               role="tab"
             >
               <i class="fa-solid fa-sliders"></i>
-              <span class="strong"> Dashboard</span>
+              <span class="bold"> Dashboard</span>
             </a>
           </li>
           <li class="nav-item me-2" role="presentation">
@@ -31,7 +31,7 @@
               role="tab"
             >
               <i class="fa-solid fa-bag-shopping"></i
-              ><span class="strong"> Orders</span>
+              ><span class="strong bolder"> Orders</span>
             </a>
           </li>
           <li class="nav-item me-2" role="presentation">
@@ -167,7 +167,78 @@
         </div>
         <div class="tab-pane fade" id="myaddress" role="tabpanel">
           <div class="row">
-            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+            <div>
+              <form class="mb-4" method="post" action="">
+                {% csrf_token %}
+                <div class="card-header">
+                  <h4>Add Address</h4>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <input
+                      type="text"
+                      placeholder="Address"
+                      required
+                      class="form-control pt-3 pb-3 ps-4"
+                      name="address"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input
+                      type="text"
+                      placeholder="Phone"
+                      required
+                      class="form-control pt-3 pb-3 ps-4"
+                      name="mobile"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <button
+                      type="submit"
+                      class="btn btn-success submit mt-3 pt-3 pb-3 ps-4 pe-4"
+                      name="submit"
+                      value="submit"
+                      style="font-weight: 600; color: white"
+                    >
+                      Save Address
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <hr />
+            </div>
+            {% for a in address%}
+            <div class="col-lg-6">
+              <div class="card-header">
+                <h4 class="mb-3 mt-4" style="color: rgb(0, 0, 0, 0.8)">
+                  Address {{forloop.counter}}
+                </h4>
+              </div>
+              <div class="card">
+                <div class="card-body border rounded">
+                  <address class="p-2">
+                    <p class="m-0">{{a.address}}</p>
+                    <p class="m-0">{{a.mobile}}</p>
+
+                    {% if a.status == True %}
+                    <td>
+                      <i
+                        class="fa-solid fa-circle-check"
+                        style="color: #269009"
+                      ></i>
+                    </td>
+                    {% else %}
+                    <td>
+                      <button class="btn btn-success mb-0" style="color: white">
+                        Make Default
+                      </button>
+                    </td>
+                    {% endif %}
+                  </address>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
           </div>
         </div>
         <div class="tab-pane fade" id="accountdetail" role="tabpanel">

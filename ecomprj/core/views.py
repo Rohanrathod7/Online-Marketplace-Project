@@ -343,9 +343,28 @@ def checkout_view(request):
 @login_required
 def customer_dashboard(request):
     orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+    address = Address.objects.filter(user = request.user)
+
+    #two ways to grab address
+    if request.method =="POST":
+        address = request.POST.get("address")  #address in name of tag
+        # address = request.POST["address"]
+        mobile = request.POST.get("mobile")
+
+        new_address = Address.objects.create(
+            address = address,
+            mobile = mobile,
+            user = request.user,
+        )
+
+        messages.success(request, "Address Added successfully.")
+
+        return redirect("core:dashboard")
+
 
     context = {
         "order": orders,
+        "address": address,
     }
     return render( request, 'core/dashboard.html', context)
 
