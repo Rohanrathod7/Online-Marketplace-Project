@@ -193,7 +193,7 @@ class ProductReview(models.Model):
     def get_rating(self):
         return self.rating
     
-class wishlist(models.Model):
+class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -201,8 +201,7 @@ class wishlist(models.Model):
     class Meta:
         verbose_name_plural = "wish list"  #categorys ==> Categories  in table
 
-    def __str__(self):
-        return self.product.title
+    
     
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

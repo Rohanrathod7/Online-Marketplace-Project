@@ -66,6 +66,7 @@
      <link rel="stylesheet" href="{% static 'assets/detail/detail-page.css' %}">
      <link rel="stylesheet" href="{% static 'assets/checkout/checkout.css' %}">
      <link rel="stylesheet" href="{% static 'assets/dashboard/dashboard.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/wishlist/wishlist.css' %}">
 
     
 
@@ -259,10 +260,24 @@
 
             <ul class="d-flex justify-content-end list-unstyled m-0">
               
-              <li class="mt-2">
-                <a href="wishlist.hrml" class="rounded-circle bg-light p-2 mx-1 ">
-                  <svg width="30" height="32" viewBox="0 0 30 32"><use xlink:href="#heart"></use></svg>
-                </a>
+              <li class="">
+                
+                <a href="{% url 'core:wishlist' %}" class="border-0 bg-transparent d-flex flex-column gap-2 lh-1 position-relative pt-2 mx-1" type="button" >
+                
+                  <span class="fs-6 text-muted "><svg width="30" height="32" viewBox="0 0 30 32"><use xlink:href="#heart"></use></svg></span>
+                  
+                  <span  class="position-absolute mt-2 me-4 top-0 start-100 translate-middle badge rounded-pill" style="background-color: #28a745; z-index: 2;">
+                    <span class="small ">
+                        {% if wishlist.count %}
+                            {{ wishlist.count }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </span>
+                </span>
+                                
+                  
+              </a>
               </li>
               <li>
                 <!-- <a href="#" class="rounded-circle bg-light p-2 mx-1">
@@ -286,7 +301,7 @@
                   </li>
               </li>
               <li class="d-lg-none ">
-                <a href="#" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <a href="#" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">cart
                   <svg width="30" height="30" viewBox="0 0 24 24"><use xlink:href="#cart"></use></svg>
                 </a>
               </li>

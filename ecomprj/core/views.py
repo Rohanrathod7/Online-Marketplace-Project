@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from core.models import Product, Vendor, Category, ProductImages, ProductReview, CartOrderItems, CartOrder, wishlist, Address
+from core.models import Product, Vendor, Category, ProductImages, ProductReview, CartOrderItems, CartOrder, Wishlist, Address
 from django.db.models import Count, Avg
 from taggit.models import Tag
 from core.forms import ProductReviewForm
@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
 
 # Create your views here.
@@ -388,7 +389,64 @@ def make_default_address(request):
     Address.objects.filter(id = id).update(status = True)
 
     return JsonResponse({"boolean":True})
+
+def add_to_wishlist(request):
+    id = request.GET["id"]
     
+    product = Product.objects.get(id = id)
+
+    context = {
+
+    }
+
+    wishlist_count = Wishlist.objects.filter(product = product, user = request.user).count()
+
+    if wishlist_count > 0:
+        context = {
+            "bool": True
+        }
+    else:
+        new_wishlist = Wishlist.objects.create(product = product, user = request.user)
+
+        context = {
+            "bool": True
+        }
+    return JsonResponse(context)
+
+@login_required
+def wishlist_view(request):
+    try:
+        wishlist_items = Wishlist.objects.filter(user=request.user)
+        
+        
+    except:
+        wishlist_items = None
+
+
+    context = {
+        "w": wishlist_items,
+        
+    }
+    return render(request, "core/wishlist.html", context)
+
+def remove_wishlist(request):
+    pid  = request.GET['id']
+    wishlist = Wishlist.objects.filter(user = request.user)
+
+    product = Wishlist.objects.get(id = pid)
+    product = product.delete()
+    
+
+    context = {
+        "bool" : True,
+        "w" : wishlist,
+    }
+
+    j_wishlist = serializers.serialize('json', wishlist)
+
+    data = render_to_string( "core/async/wishlist_list.html", context)
+
+    return JsonResponse({"data":data, "wishlist":j_wishlist})
 
 #Set-ExecutionPolicy Unrestricted -Scope Process
 #venv\Scripts\activate

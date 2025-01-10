@@ -1,0 +1,104 @@
+.table {
+  border: 1px solid rgb(0, 0, 0, 0.1); /* Black outline */
+}
+
+.product-table {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table > :not(caption) > * > * {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.product-name a {
+  color: #28a745;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.rating {
+  color: #ffd700;
+  font-size: 0.9rem;
+}
+
+.rating-number {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-left: 4px;
+}
+
+.price {
+  color: #28a745;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.stock-status {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.in-stock {
+  background: #d4edda;
+  color: #155724;
+}
+
+.out-stock {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.add-to-cart {
+  background: #40b883;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.add-to-cart:hover {
+  background: #3aa876;
+}
+
+.contact-us {
+  background: #4a5568;
+  border: none;
+  padding: 8px 5px;
+  border-radius: 5px;
+  color: white;
+}
+
+.remove-btn {
+  color: #6c757d;
+  border: none;
+  background: none;
+  padding: 5px;
+}
+
+.remove-btn:hover {
+  color: #dc3545;
+}
+
+.product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.product-cell {
+  display: flex;
+  align-items: center;
+}
+
+.table-header {
+  background-color: #e7e7e7;
+  border-radius: 20px;
+  color: rgb(0, 0, 0.8);
+}

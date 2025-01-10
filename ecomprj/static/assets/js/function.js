@@ -331,6 +331,56 @@ $(document).ready(function () {
       },
     });
   });
+
+  //add to wishlist
+  $(document).on("click", ".add-to-wishlist", function () {
+    let product_id = $(this).attr("data-product-item");
+    let this_val = $(this);
+
+    console.log(product_id);
+
+    $.ajax({
+      url: "/add_to_wishlist",
+      data: {
+        id: product_id,
+      },
+      dataType: "json",
+      beforeSend: function () {
+        this_val.html(
+          '<i class="fa-solid fa-heart" style="color: #ff0000;"></i>'
+        );
+      },
+      success: function (res) {
+        console.log("Product added to wishlist");
+        if (res.boolean == true) {
+          console.log("Added to wishlist");
+        }
+      },
+    });
+  });
+  $(document).on("click", ".delete_wishlist", function () {
+    let pid = $(this).attr("data-wishlist-id");
+    let this_val = $(this);
+
+    console.log(pid);
+
+    var jq = jQuery.noConflict();
+
+    jq.ajax({
+      url: "/remove_wishlist",
+      data: {
+        id: pid,
+      },
+      dataType: "json",
+      beforeSend: function () {
+        console.log("Deleting from wishlist");
+      },
+      success: function (res) {
+        console.log("removed");
+        $("#wish_list").html(res.data);
+      },
+    });
+  });
 });
 // Add to cart bassed on session and session data
 // $("#add-to-cart-btn").on("click", function () {

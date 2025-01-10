@@ -1,0 +1,154 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+<body>
+  <div class="container pt-4 mb-5 pb-5" id="wish_list">
+    <h1 class="mt-5">Your Wishlist</h1>
+    <p>
+      There are
+      <b style="color: rgb(4, 129, 58)">{{w.count}}</b> products in the list!
+    </p>
+
+    <div class="product-table px-4">
+      <table
+        class="table mb-0 align-middle table-hover"
+        style="border-radius: 20px"
+      >
+        <thead class="table-header">
+          <tr>
+            <th scope="col " class="" style="width: 40px">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                style="border: 1px solid rgb(0, 0, 0, 0.4)"
+              />
+            </th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock Status</th>
+            <th scope="col">Action</th>
+            <th scope="col">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for w in w %}
+          <tr>
+            <td>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                style="border: 1px solid rgb(0, 0, 0, 0.4)"
+              />
+            </td>
+            <td class="product-cell">
+              <img
+                src="{{w.product.image.url}}"
+                class="product-img"
+                alt="product"
+              />
+              <div>
+                <div class="-name">
+                  <a
+                    class="product-name"
+                    href="{% url 'core:product_detail' w.product.pid %}"
+                    style="text-decoration: none"
+                  >
+                    {{w.product.title|truncatechars:30}}
+                  </a>
+                </div>
+                <div class="rating">
+                  ★★★★☆
+                  <span class="rating-number">(4.0)</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span
+                >$<span
+                  class="price product-price-{{ w.product.id }}"
+                  value="{{ w.product.price }}"
+                  >{{w.product.price}}</span
+                ></span
+              >
+            </td>
+            <td>
+              {% if w.product.in_stock == True %}
+              <span class="stock-status in-stock">In Stock</span>
+              {% else %}
+              <span class="stock-status out-stock">Out Stock</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if w.product.in_stock %}
+
+              <div class="add-cart">
+                <input
+                  type="hidden"
+                  value="1"
+                  class="product-qty-{{ w.product.id }}"
+                  name=""
+                  id=""
+                />
+
+                <input
+                  type="hidden"
+                  value="{{w.product.id}}"
+                  class="product-id-{{ w.product.id }}"
+                  name=""
+                  id=""
+                />
+                <input
+                  type="hidden"
+                  value="{{w.product.title}}"
+                  class="product-title-{{ w.product.id }}"
+                  name=""
+                  id=""
+                />
+                <input
+                  type="hidden"
+                  value="{{w.product.image.url}}"
+                  class="product-image-{{ w.product.id }}"
+                  name=""
+                  id=""
+                />
+                <input
+                  type="hidden"
+                  value="{{w.product.pid}}"
+                  class="product-pid-{{ w.product.id }}"
+                  name=""
+                  id=""
+                />
+
+                <button
+                  class="add-to-cart vendor-card m-0 nav-link p-2 px-3 add-to-cart-btn"
+                  id="add-to-cart-btn"
+                  data-index="{{ w.product.id }}"
+                >
+                  Add to cart
+                </button>
+              </div>
+
+              {% else %}
+              <button class="contact-us p-2">Contact Us</button>
+              {% endif %}
+            </td>
+
+            <td>
+              <button
+                class="remove-btn delete_wishlist"
+                data-wishlist-id="{{w.id}}"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <p>Nothing in Wishlist yet....</p>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+{% endblock %}<!-- Path: ecomprj/templates/core/wishlist.html -->

@@ -42,7 +42,13 @@ urlpatterns = [
 
     path("dashboard/order/<int:id>", views.order_detail, name="order_detail"),
 
-    path("make_default_address/", views.make_default_address, name="make_default-address")
+    path("make_default_address/", views.make_default_address, name="make_default-address"),
+
+    path("add_to_wishlist/", views.add_to_wishlist, name="add_to_wishlist"),
+
+    path("wishlist_view/", views.wishlist_view, name="wishlist"),
+
+    path("remove_wishlist/", views.remove_wishlist, name="remove_wishlist"),
 
 
 ]
