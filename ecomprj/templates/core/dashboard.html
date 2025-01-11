@@ -10,6 +10,19 @@
             <a
               href="#"
               class="nav-link active ps-4"
+              id="accountdetail-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#accountdetail"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-user"></i> Profile
+            </a>
+          </li>
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link ps-4"
               id="dashboard-tab"
               data-bs-toggle="tab"
               data-bs-target="#dashboard"
@@ -60,19 +73,7 @@
               <i class="fa-solid fa-location-dot"></i> My Address
             </a>
           </li>
-          <li class="nav-item me-2" role="presentation">
-            <a
-              href="#"
-              class="nav-link ps-4"
-              id="accountdetail-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#accountdetail"
-              type="button"
-              role="tab"
-            >
-              <i class="fa-solid fa-user"></i> Account Details
-            </a>
-          </li>
+
           <li class="nav-item me-2" role="presentation">
             <a
               href="#"
@@ -91,7 +92,7 @@
 
       <!-- Content -->
       <div class="tab-content col-md-7 col-lg-7 m-2 pe-3" id="myTabContent">
-        <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+        <div class="tab-pane fade" id="dashboard" role="tabpanel">
           <h2>Hello {{request.user|title}}!</h2>
           <br />
           <p>From your account dashboard you can easily check & view</p>
@@ -268,14 +269,122 @@
             {% endfor %}
           </div>
         </div>
-        <div class="tab-pane fade" id="accountdetail" role="tabpanel">
-          <div class="row">
-            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+        <div
+          class="tab-pane fade show active"
+          id="accountdetail"
+          role="tabpanel"
+        >
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="">
+              <h2 class="mb-4">My Profile</h2>
+            </div>
+            <hr />
+            <div class="mb-3 col-md-2 pe-4 pb-4 mb-4">
+              {% if profile.image %}
+              <span class=""
+                ><img
+                  src="{{profile.image.url}}"
+                  alt=""
+                  style="
+                    object-fit: cover;
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                  "
+              /></span>
+              {% else %}
+              <span class=""
+                ><img
+                  src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                  alt=""
+                  style="
+                    object-fit: cover;
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                  "
+              /></span>
+              {% endif %}
+            </div>
+
+            <div class="form-group col-md-10 mb-2 ps-4">
+              <input
+                type="text"
+                placeholder="Address"
+                value="Name-{{profile.full_name}}"
+                required
+                class="form-control pt-3 pb-3 ps-4 mb-2"
+                name="address"
+                style="color: black"
+              />
+              <input
+                type="text"
+                placeholder="Address"
+                value="Bio-{{profile.bio}}"
+                required
+                class="form-control pt-3 pb-3 ps-4 mb-2"
+                name="address"
+                style="color: black"
+              />
+              <input
+                type="text"
+                placeholder="Address"
+                value="Phone-{{profile.phone}}"
+                required
+                class="form-control pt-3 pb-3 ps-4 mb-2"
+                name="address"
+                style="color: black"
+              />
+              {% if profile.verified == True %}
+              <div class="">
+                <span
+                  type="text"
+                  placeholder="Address"
+                  value="required"
+                  class="form-control pt-3 pb-3 ps-4 mb-2"
+                  name="address"
+                  style="color: black"
+                  >verified
+                  <i
+                    class="fa-solid fa-circle-check"
+                    style="color: #15d59c"
+                  ></i>
+                </span>
+              </div>
+
+              {% else %}
+              <div class="">
+                <span
+                  type="text"
+                  placeholder="Address"
+                  value="required"
+                  class="form-control pt-3 pb-3 ps-4"
+                  name="address"
+                  style="color: black"
+                  >Unverified
+                  <i
+                    class="fa-solid fa-circle-xmark lg"
+                    style="color: #fb5e09"
+                  ></i>
+                </span>
+              </div>
+              {% endif %}
+              <a
+                href="{% url 'userauths:profile_update' %}"
+                type="submit"
+                class="btn btn-success submit mt-3 pt-3 pb-3 ps-4 pe-4"
+                name="submit"
+                value="submit"
+                style="font-weight: 600; color: white"
+              >
+                Edit Address
+              </a>
+            </div>
           </div>
         </div>
         <div class="tab-pane fade" id="logout" role="tabpanel">
           <div class="row">
-            <h4 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h4>
+            <h2 class="mb-4">{{ reviews.count}} review for "{{ p.title}}"</h2>
           </div>
         </div>
       </div>

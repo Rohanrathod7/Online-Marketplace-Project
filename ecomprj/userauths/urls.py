@@ -9,6 +9,7 @@ urlpatterns = [
     path("sign-out/", views.logout_view, name="sign-out"),
     path("contectus/", views.contectus, name="contectus"),
     path("ajax_contectus/", views.ajx_contectus, name="ajx_contectus"),
+    path("profile/edit/", views.profile_update, name="profile_update"),
 
 
 ]

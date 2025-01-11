@@ -1,10 +1,10 @@
 from django.shortcuts import redirect,render
-from userauths.forms import userRegisterForm
+from userauths.forms import userRegisterForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.conf import settings
-from userauths.models import User, ContectUs
+from userauths.models import User, ContectUs, Profile
 
 from django.http import JsonResponse
 
@@ -91,3 +91,24 @@ def ajx_contectus(request):
     messages.success(request, "Massage Submited.")
 
     return JsonResponse({'data': context})
+
+def profile_update(request):
+    profile = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profilr = form.save(commit=False)
+            profilr.user = request.user
+            profilr.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect("core:dashboard")
+    else:
+        form = ProfileForm(instance=profile)
+        
+
+    context = {
+        "form": form,
+        "profile": profile
+    }
+
+    return render(request, "userauths/profile-edit.html", context)

@@ -1,0 +1,154 @@
+{% extends 'partials/base.html' %} {% load static %} {% block content %}
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-3 sidebar">
+        <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+          <a
+            href="{% url 'core:dashboard' %}"
+            class="custom-nav-link m-0"
+            id="dashboard-tab"
+            style="
+              padding-top: 2px;
+              padding-bottom: 2px;
+              text-decoration: none;
+              height: 62px;
+            "
+            ><div class="custom-nav-item pt-2 pb-2 ps-4">
+              <i class="fa-solid fa-sliders"></i>
+              <span class="strong"> Dashboard</span>
+            </div>
+          </a>
+
+          <li class="nav-item me-2" role="presentation">
+            <a
+              href="#"
+              class="nav-link active ps-4"
+              id="accountdetail-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#accountdetail"
+              type="button"
+              role="tab"
+            >
+              <i class="fa-solid fa-user"></i> Profile
+            </a>
+          </li>
+
+          <a
+            href="{% url 'userauths:sign-out'%}"
+            class="custom-nav-link m-0"
+            id="dashboard-tab"
+            style="
+              padding-top: 2px;
+              padding-bottom: 2px;
+              text-decoration: none;
+              height: 62px;
+            "
+            ><div class="custom-nav-item pt-2 pb-2 ps-4">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </div>
+          </a>
+        </ul>
+      </div>
+
+      <!-- Content -->
+      <div class="tab-content col-md-7 col-lg-7 m-2 pe-3" id="myTabContent">
+        {% if form.errors %}
+        <div class="alert-danger alert">
+          <strong>{{ form.errors }}</strong>
+        </div>
+        {% endif %}
+        <div
+          class="tab-pane fade show active"
+          id="accountdetail"
+          role="tabpanel"
+        >
+          <h2>Edit Profile</h2>
+          <hr />
+
+          <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="mb-3 col-md-2 pe-4 pb-4">
+                {% if profile.image %}
+                <span class=""
+                  ><img
+                    src="{{profile.image.url}}"
+                    alt=""
+                    style="
+                      object-fit: cover;
+                      width: 150px;
+                      height: 150px;
+                      border-radius: 50%;
+                    "
+                /></span>
+                {% else %}
+                <span class=""
+                  ><img
+                    src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                    alt=""
+                    style="
+                      object-fit: cover;
+                      width: 150px;
+                      height: 150px;
+                      border-radius: 50%;
+                    "
+                /></span>
+                {% endif %}
+              </div>
+
+              <div class="col-md-9">
+                <div class="mb-3">{{form.full_name}}</div>
+                <div class="mb-3">{{form.image}}</div>
+                <div class="mb-3">{{form.phone}}</div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">{{form.bio}}</div>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-success submit mt-3 pt-3 pb-3 ps-4 pe-4"
+                style="font-weight: 600; color: white; width: 30%"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+</body>
+
+<script>
+  const ctx = document.getElementById("myChart");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: {{month|safe}},
+      datasets: [
+        {
+          label: "# of Votes",
+          backgroundColor: "#15d59c",
+          borderColor: "#15d59c",
+          data: {{ total_order|safe }},
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+</script>
+
+{% endblock %}

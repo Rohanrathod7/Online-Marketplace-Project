@@ -3,6 +3,7 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Product, Vendor, Category, ProductImages, ProductReview, CartOrderItems, CartOrder, Wishlist, Address
+from userauths.models import Profile
 from django.db.models import Count, Avg
 from taggit.models import Tag
 from core.forms import ProductReviewForm
@@ -355,6 +356,8 @@ def customer_dashboard(request):
     orders_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user = request.user)
 
+    profile = Profile.objects.get(user = request.user)
+
     order = CartOrder.objects.annotate(month = ExtractMonth("order_date")).values("month").annotate(count = Count("id")).values("month", "count")
     month = []
     total_order = []
@@ -381,6 +384,7 @@ def customer_dashboard(request):
 
 
     context = {
+        "profile": profile,
         "orders_list": orders_list,
         "address": address,
         "order" : order,

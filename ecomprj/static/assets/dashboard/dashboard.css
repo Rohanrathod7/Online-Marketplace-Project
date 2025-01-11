@@ -1,12 +1,12 @@
 .tab-content {
-  margin-top: 60px; /* Prevents overlap with the fixed header */
+  margin-top: 0px; /* Prevents overlap with the fixed header */
   flex-grow: 1; /* Makes it occupy the remaining space */
   overflow-y: auto;
 }
 
 .tab-pane {
-  height: 1500px; /* Example height to demonstrate scrolling */
-  padding-top: 150px;
+  height: max-content; /* Example height to demonstrate scrolling */
+  padding-top: 50px;
   padding-right: 50px;
 }
 
