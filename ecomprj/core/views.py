@@ -1,3 +1,4 @@
+
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,7 +10,11 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
 from django.core import serializers
+
+from django.db.models.functions import ExtractMonth
+import calendar
 
 
 # Create your views here.
@@ -347,9 +352,17 @@ def checkout_view(request):
 
 @login_required
 def customer_dashboard(request):
-    orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+    orders_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user = request.user)
 
+    order = CartOrder.objects.annotate(month = ExtractMonth("order_date")).values("month").annotate(count = Count("id")).values("month", "count")
+    month = []
+    total_order = []
+
+    for o in order:
+        month.append(calendar.month_name[o['month']])
+        total_order.append(o['count'])
+    
     #two ways to grab address
     if request.method =="POST":
         address = request.POST.get("address")  #address in name of tag
@@ -368,8 +381,11 @@ def customer_dashboard(request):
 
 
     context = {
-        "order": orders,
+        "orders_list": orders_list,
         "address": address,
+        "order" : order,
+        "month" : month,
+        "total_order" : total_order,
     }
     return render( request, 'core/dashboard.html', context)
 
@@ -447,6 +463,8 @@ def remove_wishlist(request):
     data = render_to_string( "core/async/wishlist_list.html", context)
 
     return JsonResponse({"data":data, "wishlist":j_wishlist})
+
+
 
 #Set-ExecutionPolicy Unrestricted -Scope Process
 #venv\Scripts\activate

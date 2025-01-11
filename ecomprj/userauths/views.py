@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.conf import settings
-from userauths.models import User
+from userauths.models import User, ContectUs
+
+from django.http import JsonResponse
 
 # User = settings.AUTH_USER_MODEL    #userauths.user we declared in setting
 
@@ -67,3 +69,25 @@ def logout_view(request):
     messages.success(request, "You have Loged out")
 
     return redirect('userauths:sign-in')
+
+def contectus(request):
+    
+    return render(request, "core/contect.html")
+
+def ajx_contectus(request):
+    name = request.GET["name"] 
+    email = request.GET["email"]
+    phone = request.GET["phone"]
+    subject = request.GET["subject"]
+    message = request.GET["message"]
+
+    contact = ContectUs.objects.create(name = name, email = email, phone = phone, subject = subject, message = message)
+
+    context = {
+        "bool": True,
+        "massage": "Your message has been sent",
+    }
+
+    messages.success(request, "Massage Submited.")
+
+    return JsonResponse({'data': context})

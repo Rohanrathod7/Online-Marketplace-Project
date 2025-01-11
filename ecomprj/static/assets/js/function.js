@@ -381,6 +381,41 @@ $(document).ready(function () {
       },
     });
   });
+
+  $(document).on("submit", "#contect_form_ajax", function (e) {
+    e.preventDefault();
+
+    let name = $("#name").val();
+    let email = $("#email").val();
+    let subject = $("#subject").val();
+    let message = $("#message").val();
+    let phone = $("#phone").val();
+
+    console.log(name);
+    console.log(email);
+    console.log(subject);
+    console.log(message);
+    console.log(phone);
+
+    $.ajax({
+      url: "/user/ajax_contectus/",
+      data: {
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+        phone: phone,
+      },
+      dataType: "json",
+      beforeSend: function () {
+        console.log("Sending message...");
+      },
+      success: function (res) {
+        alert("Message sent");
+        console.log("Message sent");
+      },
+    });
+  });
 });
 // Add to cart bassed on session and session data
 // $("#add-to-cart-btn").on("click", function () {

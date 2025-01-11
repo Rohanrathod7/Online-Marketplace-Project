@@ -95,7 +95,16 @@
           <h2>Hello {{request.user|title}}!</h2>
           <br />
           <p>From your account dashboard you can easily check & view</p>
+          <div>
+            <!--{{order}}
+            {{months}}
+            {{total_order}} -->
+            <div>
+              <canvas id="myChart" style="height: 50px; width: 100px"></canvas>
+            </div>
+          </div>
         </div>
+
         <div class="tab-pane fade" id="order" role="tabpanel">
           <table
             class="table table-bordered"
@@ -112,7 +121,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for o in order %}
+              {% for o in orders_list %}
               <tr>
                 <td>INVOICE_NO-{{o.id}}</td>
                 <td>{{o.order_date}}</td>
@@ -275,4 +284,32 @@
 
   <!-- Bootstrap JS -->
 </body>
+
+<script>
+  const ctx = document.getElementById("myChart");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: {{month|safe}},
+      datasets: [
+        {
+          label: "# of Votes",
+          backgroundColor: "#15d59c",
+          borderColor: "#15d59c",
+          data: {{ total_order|safe }},
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+</script>
+
 {% endblock %}
