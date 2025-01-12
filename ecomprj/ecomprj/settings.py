@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #costume Apps
     'core',
     'userauths',
+    'useradmin',
 ]
 
 MIDDLEWARE = [
