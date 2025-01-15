@@ -70,7 +70,7 @@
                   <a href="{% url 'userauths:sign-up'%}">Create here</a>
                 </p>
               </div>
-              <form action="#" method="post">
+              <form action="#" method="POST">
                 {% csrf_token %}
 
                 <div class="form-group first mb-4">
@@ -79,7 +79,7 @@
                     type="text"
                     class="form-control"
                     name="email"
-                    id="username"
+                    id="email"
                     placeholder="Username or Email"
                   />
                 </div>

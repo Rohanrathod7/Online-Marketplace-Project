@@ -58,22 +58,34 @@
             ><i class="fas fa-star me-2"></i> Reviews</a
           >
           <hr />
-          <a class="mb-2" onclick="showSection('setting')"
+          <a class="mb-2" onclick="showSection('settings')"
             ><i class="fas fa-cogs me-2"></i> Settings</a
           >
-          <a class="mb-2" onclick="showSection('change_password')"
+          <a class="mb-2" onclick="showSection('change_pass')"
             ><i class="fas fa-key me-2"></i> Change Password</a
           >
           <a class="mb-2" onclick="showSection('logout')"
             ><i class="fas fa-sign-out-alt me-2"></i> Logout</a
           >
         </div>
-
+        
         <!-- Main Content -->
         <div
           class="col-md-9 col-lg-10 content"
-          style="background-color: rgb(237, 237, 237)"
+          style="background-color: #ededed"
         >
+        {% if messages %}
+        {% for massage in messages %}
+          <div class="alert alert-{{massage.tags}}">
+            <strong>{{ massage}}</strong>
+          </div>
+        {% endfor %}
+      {% endif %}
+      <script>
+        setTimeout (() => {
+          $(".alert").alert("close")
+        }, 3000)
+      </script>
           <!-- Dashboard Section -->
           <div id="dashboard" class="section">
             <div class="row d-flex justify-content-between">
@@ -440,8 +452,82 @@
 
           <!-- shop page section -->
           <div id="shop_page" class="section hidden">
-            <h1 class="mb-4">Reviews</h1>
-            <p>Here is the list of reviews from your customers.</p>
+            <div class="container mt-5">
+                <div class="top_container" style="background-color: white">
+                  <div class="seller-header text-white d-flex align-items-center"></div>
+                  
+                    <div class="title">
+                      <img class="photo"
+                        src="{{request.user.profile.image.url}}"
+                        alt="Logo Brand"
+                        style="height: 170px; width: 190px;object-fit:cover;"
+                      />
+                    
+                    </div>
+          
+                  <div class="row mt-0" style="margin-left: 230px">
+                    <div class="title">
+                      <h3 class="mb-0">{{request.user.profile.full_name}}</h3>
+                      <p>{{request.user.profile.bio}}</p>
+                    </div>
+                  </div>
+                  <hr class="mt-4" />
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="stats-box">
+                        <span class="mb-1">Total Sales</span>
+                        <p class="mb-0 " style="color: rgb(32, 178, 142);"><strong>${{totla_sales.qty|default:"No Sales"}}</strong></p>
+                        <span class="mb-1 ">Revenue</span>
+                        <p style="color: rgb(32, 178, 142);"><strong>${{revenue.price|default:"No Sales"}}</strong></p>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <span class="mb-1">Contacts</span class="mb-1">
+                      
+                      <p class="mb-1">Email: {{request.user.email}}</p>
+                      <p>Phone: {{request.user.profile.phone}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      <span class="mb-1">Address</span class="mb-1">
+                      <p class="mb-1">Country: California</p>
+                      <p>Address: Ranchview Dr. Richardson</p>
+                    </div>
+                  </div>
+                </div>
+          
+                <div class="top_container mt-4 p-3" style="background-color: white">
+          
+                <h4>Products by Seller</h4>
+                <div class="row products-list">
+                    {% for p in all_products %}
+                  <div class="col-lg-2 col-md-4 col-sm-6 my-2 mx-2">
+                    
+                    <div class="card" style="width: 12rem; border: 1px solid rgb(0, 0, 0, 0.1); border-radius: 0px;box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2);">
+                        <img src="{{p.image.url}}" class="card-img-top" alt="..." style="height: 200px;border-radius: none;">
+                        <div class="card-body">
+                          <a class="card-title" style="text-decoration: none;"><strong>{{p.title}}</strong></a>
+                          <p class="card-text">${{p.price}}</p>
+                          
+                        </div>
+                      </div>
+                      
+                  </div>
+                  {% endfor %}
+                  <!-- Repeat the product card as needed -->
+                </div>
+                </div>
+          
+                <div class="pagination-wrapper">
+                  <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="#">01</a></li>
+                      <li class="page-item"><a class="page-link" href="#">02</a></li>
+                      <li class="page-item"><a class="page-link" href="#">03</a></li>
+                      <li class="page-item"><a class="page-link" href="#">16</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
           </div>
 
           <!-- add product -->
@@ -458,6 +544,7 @@
                   <button
                     class="btn submit mt-1 mb-2 pt-1 pb-1 ps-4 pe-4"
                     type="submit"
+                    name="add_product"
                     style="
                       font-weight: 500;
                       color: white;
@@ -586,9 +673,236 @@
 
           <!-- Reviews Section -->
           <div id="reviews" class="section hidden">
-            <h1 class="mb-4">Reviews</h1>
-            <p>Here is the list of reviews from your customers.</p>
+            <h2>Reviews</h2>
+            <p>Manage All Product Review</p>
+            <div class="container p-4" style="background-color: white;">
+                <table class="table" >
+                    <thead>
+                      <tr>
+                        <th scope="col">S/N</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Review</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Date</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for r in reviews %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{r.product.title}}</td>
+                        <td>{{r.user.username}}</td>
+                        <td>{{r.user.email}}</td>
+                        <td>{{r.rating}}</td>
+                        
+                        <td>
+                          {{r.date|date:"d, M, Y"}}
+                        </td>
+                        
+                      </tr>
+                      {% endfor %}
+                      <!-- Add more rows as needed -->
+                    </tbody>
+                  </table>
+            </div>
           </div>
+
+          <!-- settign -->
+           <div id="settings" class="section hidden">
+            <div class="container">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <h1 class="profile-heading">Profile Setting</h1>
+                <div class="profile-container">
+                  
+                  
+                    <div class="row">
+                      <!-- Full Name -->
+                      <div class="col-md-8 mb-3">
+                        
+                            <label for="fullName" class="form-label">Full Name</label>
+                        <input
+                          type="text"
+                          class="form-control pt-3 pb-3 ps-4 mb-2"
+                          id="fullName"
+                          name="fullName"
+                          value="{{request.user.profile.full_name|default:'Full Name'}}"
+                          
+                          required
+                        />
+                        <div class="row d-flex justify-content-between ">
+                            <div class="col-md-6 mb-3">
+                                <label for="mobile" class="form-label">Mobile</label>
+                                <input
+                                  type="text"
+                                  class="form-control pt-3 pb-3 ps-4 mb-2"
+                                  id="mobile"
+                                  name="mobile"
+                                  value="{{request.user.profile.phone|default:'Mobile'}}"
+                                  required
+                                />
+                                <label for="address" class="form-label">Address</label>
+                                <input
+                                type="text"
+                                class="form-control pt-3 pb-3 ps-4 mb-2"
+                                id="address"
+                                name="address"
+                                value="{{request.user.profile.address|default:'Address'}}"
+                                required
+                                />
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input
+                                  type="email"
+                                  class="form-control pt-3 pb-3 ps-4 mb-2"
+                                  id="email"
+                                  name="email"
+                                  value="{{request.user.email|default:'Email'}}"
+                                  required
+                                />
+                                <label for="country" class="form-label">Country</label>
+                                <input
+                                  type="text"
+                                  class="form-control pt-3 pb-3 ps-4 mb-2"
+                                  id="country"
+                                  name="country"
+                                  value="{{request.user.profile.country|default:'Country'}}"
+                                  required
+                                />
+                              </div>
+                        </div>
+                        
+                          
+                      </div>
+                      <!-- Profile Picture -->
+                      <div class="col-md-4  ">
+                        
+                        <div class="profile-picture ms-5 ps-5 mt-5 justify-content-between">
+                            {% if request.user.profile.image == none %}
+                          <img
+                            src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                            alt="Profile Picture"
+                          />
+                          {% else %}
+                          <img src="{{request.user.profile.image.url}}" alt="">
+                          {% endif %}
+                        </div>
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="profilePicture"
+                          name="profilePicture"
+                        />
+                      </div>
+                      
+                    </div>
+                    
+                    
+                    <!-- Save Changes Button -->
+                    <div class="text">
+                      <button  type="submit" name="update_profile" class="btn btn-success btn-md small
+                      " style="text-decoration: none;">
+                        Save Changes
+                    </button>
+                    </div>
+                  
+                </div>
+              </div>
+            </form>
+           </div>
+
+           <!-- change_password -->
+           <div id="change_pass" class="section hidden">
+            <div class="container">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <h1 class="profile-heading">Profile Setting</h1>
+                <div class="profile-container">
+                  
+                  
+                    <div class="row">
+                      <!-- Full Name -->
+                      <div class="col-md-8 mb-3">
+                        
+                            <label for="old_pass" class="form-label">Old Password</label>
+                        <input
+                          type="password"
+                          class="form-control pt-3 pb-3 ps-4 mb-2"
+                          id="old_pass"
+                          name="old_pass"
+                          value=""
+                          placeholder="............"
+                          
+                          required
+                        />
+                        
+                            
+                                <label for="new_pass" class="form-label">New Password</label>
+                                <input
+                                type="password"
+                                class="form-control pt-3 pb-3 ps-4 mb-2"
+                                id="new_pass"
+                                name="new_pass"
+                                value=""
+                                placeholder="............"
+                                required
+                                />
+                              
+                                
+                                <label for="conf_pass" class="form-label">Confirm password</label>
+                                <input
+                                  type="password"
+                                  class="form-control pt-3 pb-3 ps-4 mb-2"
+                                  id="conf_pass"
+                                  name="conf_pass"
+                                  value=""
+                                  placeholder="............"
+                                  required
+                                />
+                              
+                        
+                        
+                          
+                      </div>
+                      <!-- Profile Picture -->
+                      <div class="col-md-4  ">
+                        
+                        <div class="profile-picture ms-5 ps-5 mt-5 justify-content-between">
+                            {% if request.user.profile.image == none %}
+                          <img
+                            src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                            alt="Profile Picture"
+                          />
+                          {% else %}
+                          <img src="{{request.user.profile.image.url}}" alt="">
+                          {% endif %}
+                        </div>
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="profilePicture"
+                          name="profilePicture"
+                        />
+                      </div>
+                      
+                    </div>
+                    
+                    
+                    <!-- Save Changes Button -->
+                    <div class="text">
+                      <button  type="submit" name="channge_pass" class="btn btn-success btn-md small
+                      " style="text-decoration: none;">
+                        Save Changes
+                    </button>
+                    </div>
+                  
+                </div>
+              </div>
+            </form>
+           </div>
         </div>
       </div>
     </div>
@@ -632,4 +946,5 @@
         });
     </script>
   </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </html>

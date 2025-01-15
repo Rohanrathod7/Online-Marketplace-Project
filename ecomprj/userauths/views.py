@@ -48,12 +48,15 @@ def login_view(request):
 
         try:
             user = User.objects.get(email = email)
+            print(user.username)
             user = authenticate(request, email= email, password = password)
 
             if user is not None:
                 login(request, user)
                 messages.success(request, "You logged in")
                 return redirect("core:index")
+            elif user is not None and user.password != password:
+                messages.warning(request, "User does not exist create an accont")
             else:
                 messages.warning(request, "User does not exist create an accont")
 
@@ -108,7 +111,8 @@ def profile_update(request):
 
     context = {
         "form": form,
-        "profile": profile
+        "profile": profile,
+        
     }
 
-    return render(request, "userauths/profile-edit.html", context)
+    return render(request, "userauths/dashboard.html", context)

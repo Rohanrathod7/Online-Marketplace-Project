@@ -225,9 +225,9 @@
           </div>
           
           <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-            <div class="search-bar row bg-light p-2 my-2 rounded-4">
-              <div class="col-md-4 d-none d-md-block">
-                <select class="form-select  bg-transparent" style="border:1px solid black;">
+            <div class="search-bar row   rounded-4" style="background-color: rgba(148, 148, 148, 0.1);border-radius: 10px;">
+              <div class="col-md-4 d-none d-md-block" >
+                <select class="form-select  bg-transparent" style="border: none;" >
                   <option>All Categories</option>
                   <option>Groceries</option>
                   <option>Drinks</option>
@@ -237,16 +237,16 @@
               <div class="col-12 col-md-8 justify-content-between ">
                 <form id="search-form justify-content-between" class="text-center" action="{% url 'core:search' %}" method="GET">
                   
-                  <div class="input-group outline-secondary">
+                  <div class="input-group ">
                     <input 
                       type="text" 
                       class="form-control  bg-transparent" 
                       placeholder="Search for more than 20,000 products" 
                       aria-label="Search for products" 
-                      style="border:1px solid black;"
+                      style="border: none;"
                       name="q"
                     />
-                    <button type="submit" class="btn btn-outline-secondary">
+                    <button type="submit" class="btn ">
                       <i class="fas fa-search"></i>
                     </button>
                   </div>
@@ -261,11 +261,23 @@
 
             <ul class="d-flex justify-content-end list-unstyled m-0">
               
-              <li class="">
+              <li class="nav-item mx-4 pt-1" >
                 
-                <a href="{% url 'core:wishlist' %}" class="border-0 bg-transparent d-flex flex-column gap-2 lh-1 position-relative pt-2 mx-1" type="button" >
+                <a href="{% url 'core:wishlist' %}" class=" d-flex flex-column   position-relative " aria-expanded="false" type="button" style="text-decoration: none;" >
                 
-                  <span class="fs-6 text-muted "><svg width="30" height="32" viewBox="0 0 30 32"><use xlink:href="#heart"></use></svg></span>
+                  <div class="" style="display: inline-flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: rgba(108, 108, 108, 0.1); /* Light black */
+                  color: white;
+                  font-size: 16px;
+                  margin-bottom: 10px;
+                  
+                  transition: background-color 0.3s, transform 0.3s;"><i class="fa-regular fa-heart fa-lg
+                  " style="color: black;"></i></div>
                   
                   <span  class="position-absolute mt-2 me-4 top-0 start-100 translate-middle badge rounded-pill" style="background-color: #28a745; z-index: 2;">
                     <span class="small ">
@@ -280,18 +292,27 @@
                   
               </a>
               </li>
-              <li>
+              <li >
                 <!-- <a href="#" class="rounded-circle bg-light p-2 mx-1">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
                 </a> -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle rounded bg-light p-2 mx-1" role="button" id="account1" data-bs-toggle="dropdown" aria-expanded="false"><svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>Account</a>
+                <li class="nav-item dropdown pt-1 " >
+                    <a class=" dropdown-toggle " role="button" id="account1" data-bs-toggle="dropdown" aria-expanded="false" ><div style="display: inline-flex;
+                      justify-content: center;
+                      align-items: center;
+                      width: 40px;
+                      height: 40px;
+                      border-radius: 50%;
+                      background-color: rgba(108, 108, 108, 0.1); /* Light black */
+                      color: white;
+                      font-size: 16px;
+                      margin-bottom: 10px;
+                      transition: background-color 0.3s, transform 0.3s;"><i class="fa-regular fa-user fa-lg " style="color: black;"></i></div></a>
                     <ul class="dropdown-menu" aria-labelledby="Account1">
                       <li><a href="{% url 'core:dashboard' %}" class="dropdown-item"><span ><i class="fa-solid fa-user pe-2" ></i>  My Account </span> </a></li>
                       <li><a href="{% url 'useradmin:dashboard' %}" class="dropdown-item"><span><i class="fa-solid fa-user pe-2" ></i>  Admin Dashboard </span></a></li>
-                      <li><a href="order.html" class="dropdown-item"><span><i class="fa-solid fa-location-dot pe-2"></i>  Order tracking </span> </a></li>
-                      <li><a href="wishlist.html" class="dropdown-item"><span><i class="fa-solid fa-heart pe-2"></i>  My Wishlist </span></a></li>
-                      <li><a href="setting.html" class="dropdown-item"><span><i class="fa-solid fa-sliders pe-2"></i>  Setting </span></a></li>
+                      <li><a href="{% url 'core:dashboard' %}" class="dropdown-item"><span><i class="fa-solid fa-location-dot pe-2"></i>  Order tracking </span> </a></li>
+                      <li><a href="{% url 'core:wishlist' %}" class="dropdown-item"><span><i class="fa-solid fa-heart pe-2"></i>  My Wishlist </span></a></li>
                       {% if request.user.is_authenticated %}
                       <li><a href="{% url 'userauths:sign-out'%}" class="dropdown-item"><span><i class="fa-solid fa-right-from-bracket pe-2"></i>  Sign Out </span> </a></li>
                       {% else %}
@@ -316,7 +337,17 @@
             <div class="cart text-end d-none d-lg-block dropdown">
               <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                 
-                <span class="fs-6 text-muted "><i class="fa-solid fa-cart-shopping" style="font-size: x-large;"></i></span>
+                <div style="display: inline-flex;
+                      justify-content: center;
+                      align-items: center;
+                      width: 40px;
+                      height: 40px;
+                      border-radius: 50%;
+                      background-color: rgba(108, 108, 108, 0.1); /* Light black */
+                      color: white;
+                      font-size: 16px;
+                      margin-bottom: 10px;
+                      transition: background-color 0.3s, transform 0.3s;"><i class="fa-solid fa-cart-shopping fa-lg" style="color: black;"></i></div>
                 
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color: #28a745;">
                   <span class="small cart_count">
@@ -366,7 +397,7 @@
                       <ul class="dropdown-menu" >
                         <!-- Dropdown items -->
                         {% for c in categories %}
-                        <li class="hover-bg-success btn-success " style="width: 200px;"><a class="dropdown-item text-dark btn-lg btn-success "  href="{% url 'core:category_product_list1' c.cid%}"><img class="me-2" src='{% static '{{c.image.url}}' %}' style="max-height: 15px;max-width: 15px; object-fit: cover;"/>{{c.title}}</a></li>
+                        <li class="hover-bg-success  " style="width: 200px;"><a class="dropdown-item text-dark "  href="{% url 'core:category_product_list1' c.cid%}"><img class="me-2" src='{{c.image.url}}' style="max-height: 15px;max-width: 15px; object-fit: cover;"/>{{c.title}}</a></li>
                         {% endfor %}
                       </ul>
                     </div>
@@ -374,12 +405,12 @@
               
                   
               
-                  <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
+                  <ul class="navbar-nav d-flex justify-content-between align-items-center menu-list list-unstyled  gap-md-3 mb-0">
                     <li class="nav-item active">
-                      <a href="#women" class="nav-link">Women</a>
+                      <a href="http://127.0.0.1:8000/" style="text-decoration: none;" class="">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Category</a>
+                      <a class=" dropdown-toggle" role="button" id="pages" style="text-decoration: none;" data-bs-toggle="dropdown" aria-expanded="false">Category</a>
                       <ul class="dropdown-menu" aria-labelledby="pages">
                         {% for c in categories %}
                         <li class="hover-bg-primary" style="width: 200px;"><a class="dropdown-item text-dark text-decoration-none" href="{% url 'core:category_product_list1' c.cid%}">{{c.title}}</a></li>
@@ -391,37 +422,27 @@
                     </li>
                   
                     <li class="nav-item">
-                      <a href="#kids" class="nav-link">Kids</a>
+                      <a href="{% url 'core:product_list' %}" class="" style="text-decoration: none;">Shop</a>
                     </li>
-                    <li class="nav-item">
-                      <a href="#accessories" class="nav-link">Accessories</a>
-                    </li>
+                  
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                      <a class=" dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" style="text-decoration: none;" aria-expanded="false">Pages</a>
                       <ul class="dropdown-menu " aria-labelledby="pages">
                         <li style="width: 200px;"><a href="about.html" class="dropdown-item text-dark text-decoration-none ">About Us </a></li>
                         <li style="width: 200px;"><a href="{% url 'core:product_list' %}" class="dropdown-item text-dark text-decoration-none">Shop </a></li>
-                        <li style="width: 200px;" style="width: 200px;"><a href="single-product.html" class="dropdown-item text-dark text-decoration-none">Single Product </a></li>
-                        <li><a href="cart.html" class="dropdown-item text-dark text-decoration-none">Cart </a></li>
-                        <li><a href="checkout.html" class="dropdown-item text-dark text-decoration-none">Checkout </a></li>
-                        <li><a href="blog.html" class="dropdown-item text-dark text-decoration-none">Blog </a></li>
-                        <li><a href="single-post.html" class="dropdown-item text-dark text-decoration-none">Single Post </a></li>
-                        <li><a href="styles.html" class="dropdown-item text-dark text-decoration-none">Styles </a></li>
-                        <li><a href="contact.html" class="dropdown-item text-dark text-decoration-none">Contact </a></li>
-                        <li><a href="thank-you.html" class="dropdown-item text-dark text-decoration-none">Thank You </a></li>
-                        <li><a href="account.html" class="dropdown-item text-dark text-decoration-none">My Account </a></li>
+                        <li style="width: 200px;" style="width: 200px;"><a href="{% url 'core:product_detail' '14chaeb22f' %}" class="dropdown-item text-dark text-decoration-none">Single Product </a></li>
+                        <li><a href="{% url 'core:cart' %}" class="dropdown-item text-dark text-decoration-none">Cart </a></li>
+                        <li><a href="{% url 'core:checkout'%}" class="dropdown-item text-dark text-decoration-none">Checkout </a></li>
+                        <li><a href="{% url 'userauths:contectus' %}" class="dropdown-item text-dark text-decoration-none">Contact </a></li>
+                        <li><a href="{% url 'core:wishlist' %}" class="dropdown-item text-dark text-decoration-none">Wishlist </a></li>
+                        <li><a href="{% url 'core:dashboard' %}" class="dropdown-item text-dark text-decoration-none">My Account </a></li>
                         <li><a href="404.html" class="dropdown-item text-dark text-decoration-none">404 Error </a></li>
                       </ul>
                     </li>
-                    <li class="nav-item">
-                      <a href="#brand" class="nav-link">Brand</a>
+                    <li class="nav-item" >
+                      <a href="{% url 'core:vendor_list' %}" class=" mt-3" style="text-decoration: none;"><span class="mt-4 pt-3">Vendors</span></a>
                     </li>
-                    <li class="nav-item">
-                      <a href="#sale" class="nav-link">Sale</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#blog" class="nav-link">Blog</a>
-                    </li>
+                    
                   </ul>
                 
                 </div>

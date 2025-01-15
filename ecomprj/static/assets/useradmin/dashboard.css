@@ -206,3 +206,93 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.seller-header {
+  background-color: #f7c948;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  height: 130px;
+}
+
+.seller-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.stats-box {
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  padding-left: 20px;
+}
+
+.products-list img {
+  width: 100%;
+  border-radius: 8px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.photo {
+  position: relative;
+  display: flex;
+  z-index: 3;
+  margin-top: -75px;
+  margin-bottom: -50px;
+  margin-left: 30px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3); /* Simple shadow */
+  border-radius: 8px;
+}
+.top_container {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.title {
+  margin-top: -25px;
+}
+.profile-container {
+  margin: 50px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 0px;
+  text-align: start;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd;
+}
+
+.custom-file-input {
+  margin-top: 10px;
+}

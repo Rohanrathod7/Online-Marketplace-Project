@@ -22,6 +22,8 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="image", null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
     verified = models.BooleanField(default=False)
 
     def __str__(self):

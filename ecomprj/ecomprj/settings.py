@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #Third party packages
     'taggit',
     'ckeditor',
+    'django_extensions',
 
     #costume Apps
     'core',
@@ -145,10 +146,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    "site_header": "Library",
-    'site_brand': "Online Taskari",
+    "site_header": "Online Marketplace",
+    'site_brand': "Online Marketplace",
     'site_logo': "assets/images/pushpa_img.jpeg",
-    'copyright' : "My Rule",
+    'copyright' : "Term & Condition",
 }
 
 AUTH_USER_MODEL = 'userauths.User'
