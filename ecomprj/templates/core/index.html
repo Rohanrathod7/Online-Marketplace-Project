@@ -161,7 +161,7 @@
         <div class="row">
           <div class="col-md-12">
 
-            <div class="section-header d-flex flex-wrap flex-wrap justify-content-between mb-5">
+            <div class="section-header d-flex flex-wrap flex-wrap justify-content-between mb-3">
               
               <h2 class="section-title">Newly Arrived Brands</h2>
 
@@ -181,82 +181,25 @@
 
             <div class="brand-carousel swiper">
               <div class="swiper-wrapper">
+                {% for v in vendors%}
                 
-                <div class="swiper-slide">
-                  <div class="card mb-3 p-3 rounded-4 shadow border-0">
+                <div class="swiper-slide" >
+                  <div class="card mb-3 p-3 rounded-4 shadow border-0" style="height: 135px;width: 343px;">
                     <div class="row g-0">
                       <div class="col-md-4">
-                        <img src="{% static 'assets/images/product-thumb-11.jpg' %}" class="img-fluid rounded" alt="Card title">
+                        <img src="{{v.image.url}}" class="img-fluid rounded" alt="Card title" style="height: 93px;width: 103px;object-fit: cover;">
                       </div>
                       <div class="col-md-8">
                         <div class="card-body py-0">
-                          <p class="text-muted mb-0">Amber Jar</p>
-                          <h5 class="card-title">Honey best nectar you wish to get</h5>
+                          <p class="text-muted mb-0">{{v.title}}</p>
+                          <h5 class="card-title">{{v.description|truncatechars:30}}</h5>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="swiper-slide">
-                  <div class="card mb-3 p-3 rounded-4 shadow border-0">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="{% static 'assets/images/product-thumb-12.jpg' %}" class="img-fluid rounded" alt="Card title">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body py-0">
-                          <p class="text-muted mb-0">Amber Jar</p>
-                          <h5 class="card-title">Honey best nectar you wish to get</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card mb-3 p-3 rounded-4 shadow border-0">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="{% static 'assets/images/product-thumb-13.jpg' %}" class="img-fluid rounded" alt="Card title">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body py-0">
-                          <p class="text-muted mb-0">Amber Jar</p>
-                          <h5 class="card-title">Honey best nectar you wish to get</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card mb-3 p-3 rounded-4 shadow border-0">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="{% static 'assets/images/product-thumb-14.jpg' %}" class="img-fluid rounded" alt="Card title">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body py-0">
-                          <p class="text-muted mb-0">Amber Jar</p>
-                          <h5 class="card-title">Honey best nectar you wish to get</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card mb-3 p-3 rounded-4 shadow border-0">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="{% static 'assets/images/product-thumb-11.jpg' %}" class="img-fluid rounded" alt="Card title">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body py-0">
-                          <p class="text-muted mb-0">Amber Jar</p>
-                          <h5 class="card-title">Honey best nectar you wish to get</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+                {% endfor %}
                 <div class="swiper-slide">
                   <div class="card mb-3 p-3 rounded-4 shadow border-0">
                     <div class="row g-0">
@@ -272,6 +215,7 @@
                     </div>
                   </div>
                 </div>
+                
                 
               </div>
             </div>
@@ -289,7 +233,7 @@
           <div class="col-md-12">
 
             <div class="bootstrap-tabs product-tabs">
-              <div class="tabs-header d-flex justify-content-between border-bottom my-5">
+              <div class="tabs-header d-flex justify-content-between border-bottom my-3">
                 <h3>Trending Products</h3>
                 <nav>
                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -299,7 +243,7 @@
                   </div>
                 </nav>
               </div>
-              <div class="tab-content" id="nav-tabContent">
+              <div class="tab-content" id="nav-tabContent" style="height: auto;">
                 <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
 
                   <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
@@ -308,8 +252,13 @@
                     <div class="col">
                       <div class="product-item">
                         <span class="badge bg-success position-absolute m-3">-{{p.get_percentage | floatformat:0}}%</span>
+                        {% if p.id in wishlist_product_ids %}
+                        <button style="border: none; background-color:none;" class="add-to-wishlist btn-wishlist" data-product-item="{{p.id}}" ><i class="fa-solid fa-heart" style="color: #ff0000;"></i></button>
+                        
+                        {% else %}
                         <button style="border: none; background-color:none;" class="add-to-wishlist btn-wishlist" data-product-item="{{p.id}}" ><svg width="24" height="24"><use xlink:href="#heart"></use></svg></button>
 
+                        {% endif %}
                         <figure >
                           <a href="{% url 'core:product_detail' p.pid %}" title="Product Title">
                             <img src="{{ p.image.url }}"  class="img-fluid tab-image" style="width: 250px; height: 250px; object-fit: cover;">
@@ -325,11 +274,12 @@
                             <span class="rating text-end"> </span>
                           </div>
                         <h3>{{ p.title }}</h3>
-                        <div>
+                        <div class="d-flex justify-content-between">
                           <!-- <span class="qty">{% if p.in_stock %}In-Stock{% else %}<p>Out-of-Stocks</p>{% endif %}</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> </span> -->
-                          <span class="font-small text-muted">By <a href="vendoe-detail.html">{{p.vendor.title}}</a></span>
+                          <span class="font-small text-muted">By <a href="vendoe-detail.html" style="text-decoration: none;">{{p.vendor.title}}</a></span>
+                          <span>$<span class="product-price-{{ p.id }} " value="{{ p.price }}" style="color: black;" ><strong>{{p.price}}</strong></span></span>
                         </div>
-                        <span>$<span class="product-price-{{ p.id }}" value="{{ p.price }}" >{{p.price}}</span></span>
+                        
                         <div class="d-flex  justify-content-between">
                           <div class="input-group product-qty">
                               <span class="input-group-btn">
@@ -362,7 +312,7 @@
                   <!-- / product-grid -->
 
                 </div>
-                <div class="tab-pane fade" id="nav-juices" role="tabpanel" aria-labelledby="nav-juices-tab">
+                <!-- <div class="tab-pane fade" id="nav-juices" role="tabpanel" aria-labelledby="nav-juices-tab">
 
                   <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
@@ -548,9 +498,9 @@
                     </div>
 
                   </div>
-                  <!-- / product-grid -->
+                   / product-grid 
                   
-                </div>
+                </div> -->
                 
               </div>
             </div>
@@ -560,7 +510,7 @@
       </div>
     </section>
 
-    <section class="py-5">
+    <!-- <section class="py-5">
       <div class="container-fluid">
         <div class="row">
           
@@ -593,9 +543,9 @@
              
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="py-5 overflow-hidden">
+    <!-- <section class="py-5 overflow-hidden">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
@@ -850,12 +800,12 @@
                 
               </div>
             </div>
-            <!-- / products-carousel -->
+             / products-carousel 
 
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="py-5">
       <div class="container-fluid">
@@ -865,7 +815,7 @@
             <div class="row">
               <div class="col-md-6 p-5">
                 <div class="section-header">
-                  <h2 class="section-title display-4">Get <span class="text-primary">25% Discount</span> on your first purchase</h2>
+                  <h2 class="section-title display-4">Get <span class="text-primary">Conected</span> with us</h2>
                 </div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dictumst amet, metus, sit massa posuere maecenas. At tellus ut nunc amet vel egestas.</p>
               </div>
@@ -880,11 +830,7 @@
                     <label for="" class="form-label">Email</label>
                     <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="abc@mail.com">
                   </div>
-                  <div class="form-check form-check-inline mb-3">
-                    <label class="form-check-label" for="subscribe">
-                    <input class="form-check-input" type="checkbox" id="subscribe" value="subscribe">
-                    Subscribe to the newsletter</label>
-                  </div>
+                  
                   <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-dark btn-lg">Submit</button>
                   </div>
@@ -900,7 +846,7 @@
       </div>
     </section>
 
-    <section class="py-5 overflow-hidden">
+    <!-- <section class="py-5 overflow-hidden">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
@@ -1151,12 +1097,12 @@
                 
               </div>
             </div>
-            <!-- / products-carousel -->
+            
 
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="py-5 overflow-hidden">
       <div class="container-fluid">
@@ -1182,202 +1128,67 @@
           <div class="col-md-12">
 
             <div class="products-carousel swiper">
-              <div class="swiper-wrapper">
+              <div class="swiper-wrapper product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-tomatoes.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
+                {% for p in new_products%}
+                    <div class="col">
+                      <div class="product-item">
+                        <span class="badge bg-success position-absolute m-3">-{{p.get_percentage | floatformat:0}}%</span>
+                        {% if p.id in wishlist_product_ids %}
+                        <button style="border: none; background-color:none;" class="add-to-wishlist btn-wishlist" data-product-item="{{p.id}}" ><i class="fa-solid fa-heart" style="color: #ff0000;"></i></button>
+                        
+                        {% else %}
+                        <button style="border: none; background-color:none;" class="add-to-wishlist btn-wishlist" data-product-item="{{p.id}}" ><svg width="24" height="24"><use xlink:href="#heart"></use></svg></button>
 
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-tomatoketchup.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
+                        {% endif %}
+                        <figure >
+                          <a href="{% url 'core:product_detail' p.pid %}" title="Product Title">
+                            <img src="{{ p.image.url }}"  class="img-fluid tab-image" style="width: 250px; height: 250px; object-fit: cover;">
+                          </a>
+                        </figure>
+                        
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <p class="m-0">{{p.category}}</p>
+                          </div>
+                          <div class="col-md-8 text-end">
+                            <span class="rating text-end"><svg width="24" height="24" class="text-primary mb-2"><use xlink:href="#star-solid"></use></svg> </span></div>
+                            <span class="rating text-end"> </span>
+                          </div>
+                        <h3>{{ p.title }}</h3>
+                        <div class="d-flex justify-content-between">
+                          <!-- <span class="qty">{% if p.in_stock %}In-Stock{% else %}<p>Out-of-Stocks</p>{% endif %}</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> </span> -->
+                          <span class="font-small text-muted">By <a href="vendoe-detail.html" style="text-decoration: none;">{{p.vendor.title}}</a></span>
+                          <span>$<span class="product-price-{{ p.id }} " value="{{ p.price }}" style="color: black;" ><strong>{{p.price}}</strong></span></span>
+                        </div>
+                        
+                        <div class="d-flex  justify-content-between">
+                          <div class="input-group product-qty">
+                              <span class="input-group-btn">
+                                  <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                                    <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                  </button>
+                              </span>
+                              <input type="text" id="quantity" name="quantity" class="form-control input-number product-qty-{{ p.id }}" value="1">
+                              <span class="input-group-btn">
+                                  <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                      <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                  </button>
+                              </span>
+                          </div>
+                          <div class="add-cart">
+                            <input type="hidden" value="{{p.id}}" class="product-id-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.title}}" class="product-title-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.image.url}}" class="product-image-{{ p.id }}" name="" id="">
+                            <input type="hidden" value="{{p.pid}}" class="product-pid-{{ p.id }}" name="" id="">
+                            
+                            <button class="btn vendor-card m-0 nav-link p-2 px-3 add-to-cart-btn" id="add-to-cart-btn" data-index="{{ p.id }}" style="background-color: #28a745; color: aliceblue;"><i class="fa-solid fa-cart-shopping me-1"></i> </button>
 
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-bananas.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
-
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-bananas.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-tomatoes.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
-
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-tomatoketchup.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
-
-                <div class="product-item swiper-slide">
-                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                  <figure>
-                    <a href="single-product.html" title="Product Title">
-                      <img src="{% static 'assets/images/thumb-bananas.png' %}"  class="tab-image">
-                    </a>
-                  </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
-                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
-                  <span class="price">$18.00</span>
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
-                  </div>
-                </div>
+                    {% endfor %}
 
                 <div class="product-item swiper-slide">
                   <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
@@ -1416,133 +1227,22 @@
       </div>
     </section>
 
-    <section id="latest-blog" class="py-5">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="section-header d-flex align-items-center justify-content-between my-5">
-            <h2 class="section-title">Our Recent Blog</h2>
-            <div class="btn-wrap align-right">
-              <a href="#" class="d-flex align-items-center nav-link">Read All Articles <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <article class="post-item card border-0 shadow-sm p-3">
-              <div class="image-holder zoom-effect">
-                <a href="#">
-                  <img src="{% static 'assets/images/post-thumb-1.jpg' %}" alt="post" class="card-img-top">
-                </a>
-              </div>
-              <div class="card-body">
-                <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                  <div class="meta-date"><svg width="16" height="16"><use xlink:href="#calendar"></use></svg>22 Aug 2021</div>
-                  <div class="meta-categories"><svg width="16" height="16"><use xlink:href="#category"></use></svg>tips & tricks</div>
-                </div>
-                <div class="post-header">
-                  <h3 class="post-title">
-                    <a href="#" class="text-decoration-none">Top 10 casual look ideas to dress up your kids</a>
-                  </h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="post-item card border-0 shadow-sm p-3">
-              <div class="image-holder zoom-effect">
-                <a href="#">
-                  <img src="{% static 'assets/images/post-thumb-2.jpg' %}" alt="post" class="card-img-top">
-                </a>
-              </div>
-              <div class="card-body">
-                <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                  <div class="meta-date"><svg width="16" height="16"><use xlink:href="#calendar"></use></svg>25 Aug 2021</div>
-                  <div class="meta-categories"><svg width="16" height="16"><use xlink:href="#category"></use></svg>trending</div>
-                </div>
-                <div class="post-header">
-                  <h3 class="post-title">
-                    <a href="#" class="text-decoration-none">Latest trends of wearing street wears supremely</a>
-                  </h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div class="col-md-4">
-            <article class="post-item card border-0 shadow-sm p-3">
-              <div class="image-holder zoom-effect">
-                <a href="#">
-                  <img src="{% static 'assets/images/post-thumb-3.jpg' %}" alt="post" class="card-img-top">
-                </a>
-              </div>
-              <div class="card-body">
-                <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                  <div class="meta-date"><svg width="16" height="16"><use xlink:href="#calendar"></use></svg>28 Aug 2021</div>
-                  <div class="meta-categories"><svg width="16" height="16"><use xlink:href="#category"></use></svg>inspiration</div>
-                </div>
-                <div class="post-header">
-                  <h3 class="post-title">
-                    <a href="#" class="text-decoration-none">10 Different Types of comfortable clothes ideas for women</a>
-                  </h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
+    
 
-    <section class="py-5 my-5">
-      <div class="container-fluid">
+    
 
-        <div class="bg-warning py-5 rounded-5" style="background-image: url('images/bg-pattern-2.png') no-repeat;">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4">
-                <img src="{% static 'assets/images/phone.png' %}" alt="phone" class="image-float img-fluid">
-              </div>
-              <div class="col-md-8">
-                <h2 class="my-5">Shop faster with foodmart App</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis. Amet blandit tortor praesent ante vitae. A, enim pretiummi senectus magna. Sagittis sed ptibus liberolectus non et psryroin.</p>
-                <div class="d-flex gap-2 flex-wrap">
-                  <img src="{% static 'assets/images/app-store.jpg' %}" alt="app-store">
-                  <img src="{% static 'assets/images/google-play.jpg' %}" alt="google-play">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </section>
-
-    <section class="py-5">
+    <section class="py-3">
       <div class="container-fluid">
         <h2 class="my-5">People are also looking for</h2>
-        <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
+        {% for t in tags %}
+        <a href="#" class="btn btn-warning me-2 mb-2">{{t}}</a>
+        
+        
+      {% endfor %}
       </div>
     </section>
 
-    <section class="py-5">
+    <!-- <section class="py-5">
       <div class="container-fluid">
         <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-5">
           <div class="col">
@@ -1622,7 +1322,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     
 {% endblock content %}
     

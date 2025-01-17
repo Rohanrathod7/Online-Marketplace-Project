@@ -7,6 +7,8 @@ def default(request):
     vendor = Vendor.objects.all()
 
     min_max_price = Product.objects.all().aggregate(Min('price'), Max('price'))
+    wishlist_product_ids = Wishlist.objects.filter(user=request.user).values_list('product__id', flat=True) if request.user.is_authenticated else []
+
 
     try:
         wishlist = Wishlist.objects.filter(user = request.user)
@@ -26,5 +28,6 @@ def default(request):
         'address' : address,
         'vendors' : vendor,
         'min_max_price' : min_max_price,
-        'wishlist':wishlist
+        'wishlist':wishlist,
+        'wishlist_product_ids':wishlist_product_ids,
     }

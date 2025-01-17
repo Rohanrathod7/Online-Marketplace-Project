@@ -148,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     "site_header": "Online Marketplace",
     'site_brand': "Online Marketplace",
-    'site_logo': "assets/images/pushpa_img.jpeg",
+    'site_logo': "",
     'copyright' : "Term & Condition",
 }
 

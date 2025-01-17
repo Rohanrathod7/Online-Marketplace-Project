@@ -21,11 +21,16 @@ import calendar
 # Create your views here.
 def index(request):
     # products = Product.objects.all().order_by("-id")
-    products = Product.objects.filter(product_status="published",featured=True).order_by("-id")
+    products = Product.objects.filter(product_status="published",featured=True)
+    new_products = Product.objects.filter(product_status="published",featured=True).order_by("-id")[:10]
+
+    tags = Product.tags.all
     # ProductReviews = ProductReview.objects.filter(product=products[])
     print(products)
     context = {
         "products" : products,
+        "new_products":new_products,
+        "tags":tags,
         # "ProductReview":ProductReviews
     }
     return render(request, "core/index.html", context)
